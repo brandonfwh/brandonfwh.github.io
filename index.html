@@ -1,1056 +1,626 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brandon Whitehead - Developer & Engineer Portfolio</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@300;400;600&display=swap');
-        
-        :root {
-            --neon-cyan: #00ffff;
-            --neon-magenta: #ff00ff;
-            --neon-yellow: #ffff00;
-            --dark-bg: #0a0a0f;
-            --darker-bg: #050508;
-            --accent-purple: #b800ff;
-            --accent-orange: #ff6b00;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            background: var(--dark-bg);
-            color: #ffffff;
-            font-family: 'JetBrains Mono', monospace;
-            overflow-x: hidden;
-            cursor: none;
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 20px 5%;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-        }
-        
-        nav ul {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            list-style: none;
-        }
-        
-        nav a {
-            color: var(--neon-cyan);
-            text-decoration: none;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
-            transition: width 0.3s ease;
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        nav a:hover {
-            color: var(--neon-magenta);
-        }
-        
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--neon-cyan);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            mix-blend-mode: difference;
-        }
-        
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--neon-magenta);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: all 0.15s ease;
-            mix-blend-mode: difference;
-        }
-        
-        /* 3D Scene Container */
-        #scene-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            z-index: 0;
-        }
-        
-        /* Hero Section */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1;
-        }
-        
-        .hero-content {
-            text-align: center;
-            z-index: 2;
-        }
-        
-        .glitch {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(3rem, 12vw, 8rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            position: relative;
-            text-shadow: 
-                0.05em 0 0 var(--neon-cyan),
-                -0.025em -0.05em 0 var(--neon-magenta),
-                0.025em 0.05em 0 var(--neon-yellow);
-            animation: glitch 725ms infinite;
-        }
-        
-        .glitch span {
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        .glitch span:first-child {
-            animation: glitch 650ms infinite;
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-            transform: translate(-0.025em, -0.0125em);
-            opacity: 0.8;
-        }
-        
-        .glitch span:last-child {
-            animation: glitch 375ms infinite;
-            clip-path: polygon(0 80%, 100% 20%, 100% 100%, 0 100%);
-            transform: translate(0.0125em, 0.025em);
-            opacity: 0.8;
-        }
-        
-        @keyframes glitch {
-            0% {
-                text-shadow: 
-                    0.05em 0 0 var(--neon-cyan),
-                    -0.025em -0.05em 0 var(--neon-magenta),
-                    0.025em 0.05em 0 var(--neon-yellow);
-            }
-            14% {
-                text-shadow: 
-                    0.05em 0 0 var(--neon-cyan),
-                    -0.025em -0.05em 0 var(--neon-magenta),
-                    0.025em 0.05em 0 var(--neon-yellow);
-            }
-            15% {
-                text-shadow: 
-                    -0.05em -0.025em 0 var(--neon-cyan),
-                    0.025em 0.025em 0 var(--neon-magenta),
-                    -0.05em -0.05em 0 var(--neon-yellow);
-            }
-            49% {
-                text-shadow: 
-                    -0.05em -0.025em 0 var(--neon-cyan),
-                    0.025em 0.025em 0 var(--neon-magenta),
-                    -0.05em -0.05em 0 var(--neon-yellow);
-            }
-            50% {
-                text-shadow: 
-                    0.025em 0.05em 0 var(--neon-cyan),
-                    0.05em 0 0 var(--neon-magenta),
-                    0 -0.05em 0 var(--neon-yellow);
-            }
-            99% {
-                text-shadow: 
-                    0.025em 0.05em 0 var(--neon-cyan),
-                    0.05em 0 0 var(--neon-magenta),
-                    0 -0.05em 0 var(--neon-yellow);
-            }
-            100% {
-                text-shadow: 
-                    -0.025em 0 0 var(--neon-cyan),
-                    -0.025em -0.025em 0 var(--neon-magenta),
-                    -0.025em -0.05em 0 var(--neon-yellow);
-            }
-        }
-        
-        .subtitle {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            margin-top: 1rem;
-            color: var(--neon-cyan);
-            font-weight: 300;
-            letter-spacing: 0.5em;
-            animation: fadeInUp 1s ease 0.5s both;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        /* Scroll Indicator */
-        .scroll-indicator {
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-        }
-        
-        .scroll-indicator::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 2px;
-            height: 50px;
-            background: linear-gradient(to bottom, transparent, var(--neon-magenta));
-            transform: translateX(-50%);
-        }
-        
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateX(-50%) translateY(0);
-            }
-            40% {
-                transform: translateX(-50%) translateY(-20px);
-            }
-            60% {
-                transform: translateX(-50%) translateY(-10px);
-            }
-        }
-        
-        /* Section Styling */
-        section {
-            position: relative;
-            min-height: 100vh;
-            padding: 100px 5%;
-            z-index: 1;
-        }
-        
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 900;
-            margin-bottom: 60px;
-            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta), var(--neon-yellow));
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--neon-cyan), transparent);
-            animation: slideIn 1s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
-        }
-        
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-        
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #ccc;
-        }
-        
-        .about-text p {
-            margin-bottom: 1.5rem;
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-        }
-        
-        .stat-card {
-            background: rgba(0, 255, 255, 0.05);
-            border: 2px solid var(--neon-cyan);
-            padding: 30px;
-            border-radius: 10px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-            transform: rotate(45deg);
-            transition: all 0.6s ease;
-        }
-        
-        .stat-card:hover::before {
-            top: 100%;
-            left: 100%;
-        }
-        
-        .stat-card:hover {
-            border-color: var(--neon-magenta);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
-            transform: translateY(-5px);
-        }
-        
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--neon-cyan);
-            display: block;
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: #888;
-        }
-        
-        /* Projects Section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-        
-        .project-card {
-            background: linear-gradient(135deg, rgba(184, 0, 255, 0.1), rgba(0, 255, 255, 0.05));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: pointer;
-        }
-        
-        .project-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .project-card:hover::before {
-            left: 100%;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--neon-cyan);
-            box-shadow: 
-                0 20px 60px rgba(0, 255, 255, 0.2),
-                0 0 40px rgba(255, 0, 255, 0.1);
-        }
-        
-        .project-number {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03);
-            line-height: 1;
-        }
-        
-        .project-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--neon-cyan);
-        }
-        
-        .project-description {
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        
-        .project-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .tag {
-            background: rgba(255, 0, 255, 0.2);
-            border: 1px solid var(--neon-magenta);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        
-        /* Skills Section */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-        
-        .skill-category {
-            background: rgba(0, 0, 0, 0.5);
-            border: 2px solid var(--neon-yellow);
-            border-radius: 15px;
-            padding: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .skill-category::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-yellow), var(--neon-magenta));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.6s ease;
-        }
-        
-        .skill-category:hover::after {
-            transform: scaleX(1);
-        }
-        
-        .skill-category h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: var(--neon-yellow);
-        }
-        
-        .skill-list {
-            list-style: none;
-        }
-        
-        .skill-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            color: #ccc;
-            transition: all 0.3s ease;
-        }
-        
-        .skill-list li:hover {
-            color: var(--neon-cyan);
-            padding-left: 10px;
-        }
-        
-        /* Contact Section */
-        .contact-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            margin-top: 60px;
-        }
-        
-        .contact-card {
-            background: linear-gradient(135deg, rgba(255, 107, 0, 0.1), rgba(184, 0, 255, 0.1));
-            border: 2px solid var(--accent-orange);
-            border-radius: 15px;
-            padding: 40px 20px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            color: white;
-            display: block;
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 20px 40px rgba(255, 107, 0, 0.3);
-            border-color: var(--neon-magenta);
-        }
-        
-        .contact-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-        
-        .contact-label {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-        
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--neon-cyan);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float 20s infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-            }
-            25% {
-                transform: translateY(-100px) translateX(50px);
-            }
-            50% {
-                transform: translateY(-200px) translateX(-50px);
-            }
-            75% {
-                transform: translateY(-100px) translateX(100px);
-            }
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            body {
-                cursor: auto;
-            }
-            
-            .cursor, .cursor-follower {
-                display: none;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 15px;
-                align-items: center;
-            }
-            
-            nav {
-                padding: 15px 5%;
-            }
-            
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brandon Whitehead | Electrical Engineering Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gt-gold: #B3A369;
+    --gt-gold-light: #D6CB8E;
+    --gt-gold-dim: #8A7D50;
+    --gt-navy: #003057;
+    --bg-primary: #0A0E17;
+    --bg-secondary: #111827;
+    --bg-card: #161E2E;
+    --bg-card-hover: #1C2640;
+    --text-primary: #E8E6E1;
+    --text-secondary: #9CA3AF;
+    --text-muted: #6B7280;
+    --border: #1F2937;
+    --accent-blue: #3B82F6;
+    --accent-green: #10B981;
+    --accent-amber: #F59E0B;
+    --accent-red: #EF4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--gt-gold-dim) var(--bg-primary); }
+  body { font-family: 'Source Serif 4', Georgia, serif; background: var(--bg-primary); color: var(--text-primary); line-height: 1.7; overflow-x: hidden; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10, 14, 23, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+  nav .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0.75rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  nav .logo { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem; color: var(--gt-gold); letter-spacing: 0.05em; text-decoration: none; }
+  nav .logo span { color: var(--text-muted); }
+  nav .nav-links { display: flex; gap: 2rem; list-style: none; }
+  nav .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 400; color: var(--text-secondary); text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; transition: color 0.2s; position: relative; }
+  nav .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gt-gold); transition: width 0.3s ease; }
+  nav .nav-links a:hover { color: var(--gt-gold-light); }
+  nav .nav-links a:hover::after { width: 100%; }
+
+  .hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-bg canvas { width: 100%; height: 100%; }
+  .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10,14,23,0.95) 0%, rgba(10,14,23,0.7) 50%, rgba(10,14,23,0.9) 100%); z-index: 1; }
+  .hero-content { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 6rem 2rem 4rem; width: 100%; }
+  .hero-label { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; font-weight: 400; color: var(--gt-gold); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.2s forwards; }
+  .hero-label::before { content: '//'; margin-right: 0.5rem; color: var(--gt-gold-dim); }
+  .hero h1 { font-family: 'Source Serif 4', serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 700; line-height: 1.1; margin-bottom: 1.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.4s forwards; }
+  .hero h1 .gold { color: var(--gt-gold); }
+  .hero-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; line-height: 1.8; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.8s ease 0.6s forwards; }
+  .hero-stats { display: flex; gap: 3rem; opacity: 0; animation: fadeUp 0.8s ease 0.8s forwards; }
+  .hero-stat { position: relative; padding-left: 1rem; }
+  .hero-stat::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--gt-gold-dim); }
+  .hero-stat .value { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 700; color: var(--text-primary); display: block; line-height: 1.2; }
+  .hero-stat .label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  section { max-width: 1200px; margin: 0 auto; padding: 6rem 2rem; }
+  .section-header { margin-bottom: 3.5rem; }
+  .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 400; color: var(--gt-gold); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 0.75rem; }
+  .section-label::before { content: '//'; margin-right: 0.5rem; color: var(--gt-gold-dim); }
+  .section-title { font-family: 'Source Serif 4', serif; font-size: 2rem; font-weight: 600; color: var(--text-primary); }
+  .section-divider { width: 100%; height: 1px; background: var(--border); }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .about-text p { color: var(--text-secondary); margin-bottom: 1.25rem; font-size: 1.05rem; }
+  .about-details { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; }
+  .about-details h3 { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; }
+  .detail-row { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-key { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-muted); }
+  .detail-value { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-primary); font-weight: 500; }
+  .detail-value.gold { color: var(--gt-gold); }
+
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .project-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; transition: all 0.35s ease; position: relative; overflow: hidden; cursor: pointer; }
+  .project-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--card-accent, var(--gt-gold)), transparent); opacity: 0; transition: opacity 0.35s ease; }
+  .project-card:hover { background: var(--bg-card-hover); border-color: rgba(179, 163, 105, 0.2); transform: translateY(-2px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card .click-hint { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-muted); position: absolute; bottom: 0.75rem; right: 1rem; opacity: 0; transition: opacity 0.3s; letter-spacing: 0.05em; }
+  .project-card:hover .click-hint { opacity: 1; }
+  .project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .project-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.25rem 0.6rem; border-radius: 3px; display: inline-block; margin-bottom: 1rem; }
+  .tag-hardware { background: rgba(245, 158, 11, 0.12); color: var(--accent-amber); border: 1px solid rgba(245, 158, 11, 0.2); }
+  .tag-software { background: rgba(59, 130, 246, 0.12); color: var(--accent-blue); border: 1px solid rgba(59, 130, 246, 0.2); }
+  .tag-ai { background: rgba(16, 185, 129, 0.12); color: var(--accent-green); border: 1px solid rgba(16, 185, 129, 0.2); }
+  .tag-competition { background: rgba(239, 68, 68, 0.12); color: var(--accent-red); border: 1px solid rgba(239, 68, 68, 0.2); }
+  .project-title { font-family: 'Source Serif 4', serif; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--text-primary); }
+  .project-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.7; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .tech-chip { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted); background: rgba(255,255,255,0.04); padding: 0.2rem 0.55rem; border-radius: 3px; border: 1px solid rgba(255,255,255,0.06); }
+  .project-specs { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .project-specs li { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-secondary); padding-left: 1.2rem; position: relative; }
+  .project-specs li::before { content: '>'; position: absolute; left: 0; color: var(--gt-gold-dim); font-weight: 600; }
+
+  /* MODAL */
+  .modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(5, 7, 12, 0.88); backdrop-filter: blur(12px); opacity: 0; pointer-events: none; transition: opacity 0.35s ease; overflow-y: auto; display: flex; justify-content: center; padding: 3rem 1rem; }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal-content { background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 12px; max-width: 900px; width: 100%; position: relative; transform: translateY(30px) scale(0.97); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); align-self: flex-start; }
+  .modal-overlay.active .modal-content { transform: translateY(0) scale(1); }
+  .modal-accent { height: 3px; border-radius: 12px 12px 0 0; }
+  .modal-header { padding: 2rem 2.5rem 0; display: flex; justify-content: space-between; align-items: flex-start; }
+  .modal-close { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.75rem; cursor: pointer; transition: all 0.2s; flex-shrink: 0; margin-left: 1rem; }
+  .modal-close:hover { color: var(--text-primary); background: rgba(255,255,255,0.1); }
+  .modal-body { padding: 1.5rem 2.5rem 2.5rem; }
+  .modal-body .modal-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.25rem 0.6rem; border-radius: 3px; display: inline-block; margin-bottom: 0.75rem; margin-right: 0.3rem; }
+  .modal-body .modal-title { font-family: 'Source Serif 4', serif; font-size: 1.8rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; }
+  .modal-body .modal-subtitle { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); margin-bottom: 2rem; }
+  .modal-section { margin-bottom: 2rem; }
+  .modal-section-title { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--gt-gold); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(179, 163, 105, 0.15); }
+  .modal-section p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.8; margin-bottom: 0.75rem; }
+  .modal-tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 1.5rem; }
+  .modal-tech-item { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; color: var(--text-secondary); padding: 0.5rem 0; padding-left: 1rem; position: relative; border-bottom: 1px solid rgba(255,255,255,0.03); }
+  .modal-tech-item::before { content: '>'; position: absolute; left: 0; color: var(--gt-gold-dim); font-weight: 600; }
+  .modal-image-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.75rem; }
+  .modal-image-placeholder { background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.08); border-radius: 8px; aspect-ratio: 16/10; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .modal-image-placeholder img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+  .modal-image-placeholder .placeholder-text { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted); }
+  .modal-highlight { background: rgba(179, 163, 105, 0.06); border-left: 3px solid var(--gt-gold-dim); padding: 1rem 1.25rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+  .modal-highlight p { font-size: 0.9rem !important; color: var(--text-secondary) !important; margin-bottom: 0 !important; }
+  .modal-footer-tech { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+
+  .academics-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+  .course-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .course-table-header { display: grid; grid-template-columns: 2fr 1fr 0.6fr; padding: 0.75rem 1.25rem; background: rgba(179, 163, 105, 0.06); border-bottom: 1px solid var(--border); }
+  .course-table-header span { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .course-row { display: grid; grid-template-columns: 2fr 1fr 0.6fr; padding: 0.55rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s; }
+  .course-row:hover { background: rgba(255,255,255,0.02); }
+  .course-row:last-child { border-bottom: none; }
+  .course-name { font-size: 0.82rem; color: var(--text-primary); }
+  .course-name .ap { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; color: var(--gt-gold); background: rgba(179, 163, 105, 0.1); padding: 0.1rem 0.35rem; border-radius: 2px; margin-right: 0.4rem; vertical-align: middle; }
+  .course-type { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); }
+  .course-grade { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; font-weight: 600; text-align: right; }
+  .grade-a { color: var(--accent-green); }
+  .grade-high { color: var(--gt-gold-light); }
+  .academic-sidebar { display: flex; flex-direction: column; gap: 1.25rem; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; text-align: center; }
+  .stat-card .stat-number { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.25rem; }
+  .stat-card .stat-desc { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .stat-gold .stat-number { color: var(--gt-gold); }
+  .stat-green .stat-number { color: var(--accent-green); }
+  .stat-blue .stat-number { color: var(--accent-blue); }
+
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .skill-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 1.75rem; }
+  .skill-group h3 { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--gt-gold); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .skill-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; font-size: 0.88rem; color: var(--text-secondary); }
+  .skill-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gt-gold-dim); flex-shrink: 0; }
+
+  footer { border-top: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+  footer .footer-inner { max-width: 1200px; margin: 0 auto; }
+  footer .footer-name { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; color: var(--gt-gold); font-weight: 600; margin-bottom: 0.5rem; }
+  footer .footer-tagline { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-muted); letter-spacing: 0.05em; }
+  footer .footer-links { margin-top: 1.5rem; display: flex; justify-content: center; gap: 2rem; }
+  footer .footer-links a { font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-secondary); text-decoration: none; transition: color 0.2s; }
+  footer .footer-links a:hover { color: var(--gt-gold); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    .about-grid, .academics-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+    .modal-body { padding: 1.5rem; }
+    .modal-tech-grid { grid-template-columns: 1fr; }
+    .modal-image-grid { grid-template-columns: 1fr; }
+    nav .nav-links { gap: 1rem; }
+    nav .nav-links a { font-size: 0.65rem; }
+  }
+  @media (max-width: 600px) {
+    nav .nav-links { display: none; }
+    section { padding: 4rem 1.25rem; }
+    .modal-content { border-radius: 8px; }
+    .modal-overlay { padding: 1rem 0.5rem; }
+  }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <ul>
-            <li><a href="#about">About</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#academics">Academics</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#contact">Contact</a></li>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">BW<span>::portfolio</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#academics">Academics</a></li>
+      <li><a href="#skills">Skills</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"><canvas id="circuitCanvas"></canvas></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-label">Embedded Systems &amp; Hardware Engineering</div>
+    <h1>Brandon <span class="gold">Whitehead</span></h1>
+    <p class="hero-subtitle">Junior at North Gwinnett High School and dual enrollment student at Georgia Tech. Building at the intersection of embedded systems, AI, and hands-on engineering.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="value">4.22</span><span class="label">GPA (Weighted)</span></div>
+      <div class="hero-stat"><span class="value">105</span><span class="label">Class Rank / 751</span></div>
+      <div class="hero-stat"><span class="value">23.5</span><span class="label">Credits Earned</span></div>
+      <div class="hero-stat"><span class="value">8</span><span class="label">AP Courses</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="about">
+  <div class="section-header reveal"><div class="section-label">Background</div><h2 class="section-title">About Me</h2></div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I am a junior at North Gwinnett High School in Suwanee, Georgia, with a deep passion for electrical engineering and embedded systems. Currently dual enrolled at the Georgia Institute of Technology, I am pursuing my goal of majoring in Electrical Engineering, where I can bring together my interests in circuit design, microcontroller programming, and signal processing.</p>
+      <p>My project work spans from wearable computing devices built around the ESP32 platform to environmental monitoring systems, AI-powered audio classification, and computer vision applications. I compete actively in TSA (Technology Student Association) events and am presenting original research at Gwinnett County's local Science Fair.</p>
+      <p>Beyond the technical work, I bring three years of Latin study, strong foundations in AP-level math and science, and a consistent record of academic excellence. I thrive on projects that blend hardware and software to solve real problems.</p>
+    </div>
+    <div class="about-details reveal">
+      <h3>Quick Facts</h3>
+      <div class="detail-row"><span class="detail-key">School</span><span class="detail-value">North Gwinnett High</span></div>
+      <div class="detail-row"><span class="detail-key">Grade</span><span class="detail-value">11th (Junior)</span></div>
+      <div class="detail-row"><span class="detail-key">Dual Enrollment</span><span class="detail-value gold">Georgia Tech</span></div>
+      <div class="detail-row"><span class="detail-key">Target Major</span><span class="detail-value gold">Electrical Engineering</span></div>
+      <div class="detail-row"><span class="detail-key">Weighted GPA</span><span class="detail-value">4.220</span></div>
+      <div class="detail-row"><span class="detail-key">Weighted Avg</span><span class="detail-value">98.39</span></div>
+      <div class="detail-row"><span class="detail-key">Competition</span><span class="detail-value">TSA / Science Fair</span></div>
+      <div class="detail-row"><span class="detail-key">Languages</span><span class="detail-value">Latin (3 years)</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="projects">
+  <div class="section-header reveal"><div class="section-label">Engineering Portfolio</div><h2 class="section-title">Featured Projects</h2></div>
+  <div class="projects-grid">
+    <div class="project-card featured reveal" style="--card-accent: #F59E0B;" onclick="openModal('pipboy')">
+      <div>
+        <span class="project-tag tag-hardware">Hardware + Firmware</span>
+        <h3 class="project-title">ESP32 Pip-Boy 3000</h3>
+        <p class="project-desc">A fully functional wearable computer built across multiple development phases. Features dual ESP32 microcontrollers, environmental sensors, three displays, addressable LED strips, and a custom 3D-printed enclosure.</p>
+        <div class="project-tech"><span class="tech-chip">ESP32</span><span class="tech-chip">C / C++</span><span class="tech-chip">I2C / SPI</span><span class="tech-chip">NeoPixel</span><span class="tech-chip">LiPo Battery</span><span class="tech-chip">3D Printing</span></div>
+      </div>
+      <div>
+        <ul class="project-specs">
+          <li>Dual microcontroller architecture with UART inter-board communication</li>
+          <li>4-inch TFT touchscreen, OLED status bar, and LCD quick-readout</li>
+          <li>10 practical tabs: weather, compass, radar, environment, and more</li>
+          <li>Custom battery monitoring with low-power sleep modes</li>
+          <li>3D-printed PETG enclosure designed in Fusion 360</li>
         </ul>
-    </nav>
-    
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-    
-    <!-- 3D Background -->
-    <div id="scene-container"></div>
-    
-    <!-- Floating Particles -->
-    <div class="particles" id="particles"></div>
-    
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="glitch" data-text="BRANDON WHITEHEAD">
-                BRANDON WHITEHEAD
-                <span aria-hidden="true">BRANDON WHITEHEAD</span>
-                <span aria-hidden="true">BRANDON WHITEHEAD</span>
-            </h1>
-            <p class="subtitle">DEVELOPER / ENGINEER / INNOVATOR</p>
+      </div>
+      <span class="click-hint">Click to expand ></span>
+    </div>
+
+    <div class="project-card reveal" style="--card-accent: #10B981;" onclick="openModal('sediment')">
+      <span class="project-tag tag-hardware">Hardware + Data Logging</span>
+      <h3 class="project-title">Sediment Sentry Buoy</h3>
+      <p class="project-desc">An autonomous environmental monitoring buoy that uses an Arduino and calibrated turbidity sensor to continuously measure water sediment density with GPS-tagged data logging to onboard SD card.</p>
+      <div class="project-tech"><span class="tech-chip">Arduino</span><span class="tech-chip">Turbidity Sensor</span><span class="tech-chip">GPS (NEO-6M)</span><span class="tech-chip">SD Card</span><span class="tech-chip">PETG Housing</span></div>
+      <span class="click-hint">Click to expand ></span>
+    </div>
+
+    <div class="project-card reveal" style="--card-accent: #EF4444;" onclick="openModal('soundalert')">
+      <span class="project-tag tag-ai">AI + Embedded Systems</span>
+      <span class="project-tag tag-competition" style="margin-left: 0.4rem;">Science Fair</span>
+      <h3 class="project-title">Sound Alert Pro</h3>
+      <p class="project-desc">A Raspberry Pi-based real-time sound monitoring system powered by Google's YAMNet AI model. Classifies over 500 ambient sound categories with configurable alerts. Competing at Gwinnett County Science Fair.</p>
+      <div class="project-tech"><span class="tech-chip">Raspberry Pi</span><span class="tech-chip">Python</span><span class="tech-chip">YAMNet / TFLite</span><span class="tech-chip">Audio DSP</span><span class="tech-chip">Flask</span></div>
+      <span class="click-hint">Click to expand ></span>
+    </div>
+
+    <div class="project-card reveal" style="--card-accent: #3B82F6;" onclick="openModal('handtrack')">
+      <span class="project-tag tag-software">Computer Vision</span>
+      <h3 class="project-title">HandWave &amp; Hand Pong</h3>
+      <p class="project-desc">A suite of gesture-controlled applications using real-time hand tracking via webcam. Includes a two-hand musical instrument and a Pong game with particle effects, power shots, and special abilities.</p>
+      <div class="project-tech"><span class="tech-chip">Python</span><span class="tech-chip">MediaPipe</span><span class="tech-chip">OpenCV</span><span class="tech-chip">Pygame</span></div>
+      <span class="click-hint">Click to expand ></span>
+    </div>
+
+    <div class="project-card reveal" style="--card-accent: #B3A369;" onclick="openModal('tsa')">
+      <span class="project-tag tag-competition">TSA Competition</span>
+      <h3 class="project-title">TSA Event Projects</h3>
+      <p class="project-desc">Active competitor in multiple TSA events including game design and virtual reality simulation. Projects include EchoShift Expedition (2D puzzle-platformer) and Evolution of Transportation (VR museum simulation).</p>
+      <div class="project-tech"><span class="tech-chip">Godot 4.5</span><span class="tech-chip">GDScript</span><span class="tech-chip">Game Design</span><span class="tech-chip">VR Sim</span></div>
+      <span class="click-hint">Click to expand ></span>
+    </div>
+  </div>
+</section>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-pipboy">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #F59E0B, #B3A369);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('pipboy')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-hardware">Hardware + Firmware</span>
+      <h2 class="modal-title">ESP32 Pip-Boy 3000</h2>
+      <p class="modal-subtitle">Wearable Embedded Computer // Multi-Phase Build // 15+ Integrated Components</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>The Pip-Boy 3000 is a fully functional wearable computer inspired by the Fallout franchise, but designed with a practical-first philosophy. Rather than building a cosplay prop, I set out to create a real embedded system that serves useful functions: live weather, compass heading, environmental readings, a stopwatch, ultrasonic radar, flashlight control, and more. It happens to look like a Pip-Boy, but every feature is genuinely useful.</p>
+        <p>The build was developed across multiple phases over several months, starting from getting pixels on a single display and progressively adding a second microcontroller, three screens, a full sensor suite, a LiPo battery system, and finally a custom 3D-printed enclosure.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Dual-MCU Architecture</div>
+        <p>The system uses two ESP32-WROOM-32E microcontrollers communicating over a UART serial link at 115200 baud using a JSON message protocol. The Main Controller (ESP32 #1) drives the primary 4-inch TFT touchscreen (Hosyond 480x320 ST7796S over SPI), manages the tab-based menu system, handles WiFi/Bluetooth connectivity, and runs the calendar, weather, and compass tabs. The Sensor Hub (ESP32 #2) drives the 0.96-inch SSD1306 OLED as a persistent status bar and the I2C LCD 1602 as a quick-glance readout, while managing all physical sensors: BME280 (temperature, humidity, pressure), ultrasonic distance, photoresistor, and the OV2640 camera.</p>
+        <div class="modal-highlight"><p>The decision to use two microcontrollers instead of one was driven by GPIO limitations. With three displays (SPI + two I2C), a camera, six sensors, an LED strip, audio output, and WiFi all competing for pins, a single ESP32 could not handle the load. Splitting responsibilities between two MCUs simplified wiring and let each processor focus on its role.</p></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Display System</div>
+        <p>Each of the three displays serves a distinct role. The 4-inch TFT is the primary interface, rendering a tab bar across the top and full-screen content for whichever of the 10 tabs is selected. I wrote the display driver using the TFT_eSPI library with custom PWM backlight control, which required resolving a conflict between the backlight PWM channel and the NeoPixel LED strip that was causing brightness flickering on both.</p>
+        <p>The OLED acts as a persistent status bar showing time, battery percentage, and WiFi/Bluetooth connection icons. The LCD 1602 provides a quick-glance readout of the current mode name and a single key value (like "TEMP: 72.4F") for at-a-glance information without needing to look at the main screen.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">10 Practical Tabs</div>
+        <div class="modal-tech-grid">
+          <div class="modal-tech-item">Weather (WiFi, live forecast)</div>
+          <div class="modal-tech-item">Calendar / Agenda</div>
+          <div class="modal-tech-item">Compass / Heading (magnetometer)</div>
+          <div class="modal-tech-item">Stopwatch / Timer</div>
+          <div class="modal-tech-item">Environment (temp, humidity, pressure)</div>
+          <div class="modal-tech-item">Ultrasonic Radar / Proximity</div>
+          <div class="modal-tech-item">Camera Viewer (OV2640)</div>
+          <div class="modal-tech-item">Sound / Audio Player</div>
+          <div class="modal-tech-item">Flashlight (NeoPixel LED strip)</div>
+          <div class="modal-tech-item">System Stats (battery, WiFi, uptime)</div>
         </div>
-        <div class="scroll-indicator"></div>
-    </section>
-    
-    <!-- About Section -->
-    <section id="about">
-        <h2 class="section-title">ABOUT</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <p>I'm Brandon Whitehead, a junior at North Gwinnett High School with a passion for building innovative solutions at the intersection of code, hardware, and real-world impact. From developing AI-powered sound detection systems to engineering autonomous water quality monitors, I love pushing the boundaries of what's possible with technology.</p>
-                <p>My journey started with tinkering on small Arduino projects, but quickly evolved into competing at state-level engineering competitions and taking on real-world challenges like clean water access and medical robotics. I'm driven by the question: "How can technology solve problems that matter?"</p>
-                <p>When I'm not coding or building prototypes, you'll find me mentoring small businesses in Nigeria through the IIP Program, competing in TSA competitions, or working on my latest game development project.</p>
-            </div>
-            <div class="stats">
-                <div class="stat-card">
-                    <span class="stat-number">4.22</span>
-                    <span class="stat-label">Weighted GPA</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">35</span>
-                    <span class="stat-label">ACT Superscore</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">150+</span>
-                    <span class="stat-label">Service Hours</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">13</span>
-                    <span class="stat-label">AP Classes</span>
-                </div>
-            </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Power System &amp; Enclosure</div>
+        <p>The device runs on dual 18650 LiPo cells managed by a TP4056 charging module with a 5V buck converter for stable regulation. A voltage divider feeds into an ADC pin for real-time battery monitoring displayed on the OLED status bar. The enclosure was designed in Fusion 360 and printed on a Bambu Lab P1S in PETG. The shell mounts the TFT screen on the top face with all electronics housed parallel on the underside, strapping to the forearm with adjustable Velcro bands.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid">
+          <div class="modal-image-placeholder"><img src="pipboy-breadboard-full.png" alt="Pip-Boy dual ESP32 breadboard prototype with TFT, LED strip, and joystick"></div>
+          <div class="modal-image-placeholder"><img src="pipboy-breadboard-closeup.png" alt="Close-up of ESP32 wiring with TFT display and NeoPixel strip"></div>
+          <div class="modal-image-placeholder"><img src="pipboy-tft-joystick.png" alt="Hosyond TFT display connected to ESP32 with joystick input and buttons"></div>
         </div>
-    </section>
-    
-    <!-- Projects Section -->
-    <section id="projects">
-        <h2 class="section-title">PROJECTS</h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <span class="project-number">01</span>
-                <h3 class="project-title">Sound Alert Pro</h3>
-                <p class="project-description">AI-powered sound detection system for the deaf/hard-of-hearing. Raspberry Pi server with YAMNet (521-class classifier) communicates with Android app via REST API. Real-time alerts for fire alarms, doorbells, and critical sounds. Science Fair Project with professional web dashboard.</p>
-                <div class="project-tags">
-                    <span class="tag">TensorFlow Lite</span>
-                    <span class="tag">Flask</span>
-                    <span class="tag">Raspberry Pi</span>
-                    <span class="tag">Android</span>
-                    <span class="tag">REST API</span>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <span class="project-number">02</span>
-                <h3 class="project-title">Sediment Sentry</h3>
-                <p class="project-description">Autonomous floating water quality monitor for remote waterways. 3D-printed waterproof hull with Arduino/Raspberry Pi measuring turbidity, pH, and temperature. GPS data logging to SD card for contamination source discovery. TSA Engineering Design project addressing NAE Grand Challenge: Clean Water Access.</p>
-                <div class="project-tags">
-                    <span class="tag">Arduino</span>
-                    <span class="tag">Sensors</span>
-                    <span class="tag">3D Printing</span>
-                    <span class="tag">GPS Logging</span>
-                    <span class="tag">Environmental</span>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <span class="project-number">03</span>
-                <h3 class="project-title">Wayward Echo</h3>
-                <p class="project-description">Puzzle game combining 16-bit retro graphics with modern time-manipulation mechanics. Features clone creation that replicates past 5 seconds of movement and physics object rewinding. Year-long development for TSA Game Design competition with custom engine and innovative gameplay.</p>
-                <div class="project-tags">
-                    <span class="tag">Game Dev</span>
-                    <span class="tag">Unity/Custom Engine</span>
-                    <span class="tag">Physics</span>
-                    <span class="tag">Time Mechanics</span>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <span class="project-number">04</span>
-                <h3 class="project-title">Medical Robotics CAD</h3>
-                <p class="project-description">Designed CAD models for autonomous AI-powered medical robot startup. Created 3D-printer-style axis motion system with precision movement capabilities. Conducted FEA (Finite Element Analysis) to optimize structural integrity and performance under operational loads.</p>
-                <div class="project-tags">
-                    <span class="tag">CAD Design</span>
-                    <span class="tag">FEA Analysis</span>
-                    <span class="tag">Robotics</span>
-                    <span class="tag">Medical Tech</span>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <span class="project-number">05</span>
-                <h3 class="project-title">Orbital Mechanics Simulator</h3>
-                <p class="project-description">Interactive physics simulation for AP Physics class created on own initiative. Real-time orbital calculations with customizable scenarios, velocity/acceleration vectors, gravitational field visualization, and precise numerical displays. Demonstrates Newtonian mechanics and Kepler's laws.</p>
-                <div class="project-tags">
-                    <span class="tag">JavaScript</span>
-                    <span class="tag">Physics Engine</span>
-                    <span class="tag">Canvas API</span>
-                    <span class="tag">Educational</span>
-                </div>
-            </div>
-            
-            <div class="project-card">
-                <span class="project-number">06</span>
-                <h3 class="project-title">TSA Gravity Vehicle</h3>
-                <p class="project-description">Precision-engineered gravity-powered vehicle for TSA competition. Custom pulley system and wheel design powered exclusively by falling Coke can. Achieved 6th place at Georgia State competition through optimized weight distribution and friction reduction.</p>
-                <div class="project-tags">
-                    <span class="tag">Mechanical Design</span>
-                    <span class="tag">Physics</span>
-                    <span class="tag">Competition</span>
-                    <span class="tag">Engineering</span>
-                </div>
-            </div>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">ESP32-WROOM-32E x2</span><span class="tech-chip">C / C++</span><span class="tech-chip">PlatformIO</span><span class="tech-chip">TFT_eSPI</span><span class="tech-chip">SPI / I2C / UART</span><span class="tech-chip">BME280</span><span class="tech-chip">OV2640</span><span class="tech-chip">NeoPixel WS2812B</span><span class="tech-chip">TP4056 + 18650</span><span class="tech-chip">Fusion 360</span><span class="tech-chip">Bambu P1S (PETG)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-sediment">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #10B981, #059669);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('sediment')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-hardware">Hardware + Data Logging</span>
+      <span class="modal-tag tag-competition">TSA Competition</span>
+      <h2 class="modal-title">Sediment Sentry Buoy</h2>
+      <p class="modal-subtitle">Autonomous Turbidity Monitoring Device // 4-Iteration Engineering Process // ~$35 Build Cost</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>The Sediment Sentry is an autonomous, GPS-tagged turbidity monitoring buoy designed to transform water quality measurement from a labor-intensive single-point process into a continuous, spatially-aware data stream. A researcher studying sediment transport traditionally must visit each site, submerge a handheld meter, and record one reading at a time. The Sediment Sentry captures continuous data at 60-second intervals, revealing dynamic patterns like rainfall-driven turbidity spikes and sediment plume migration that snapshot measurements would miss entirely.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Iterative Engineering Process</div>
+        <p>The development of the Sediment Sentry was conducted over four distinct engineering iterations, moving from a raw electronic proof-of-concept to a fully autonomous, field-ready scientific tool.</p>
+        <p><strong>Iteration 1: Breadboard Prototyping and Logic Definition</strong><br>The first phase focused entirely on proving the core scientific concept: measuring turbidity using electronics. The initial prototype consisted of sensor calibration on a breadboard. To establish a baseline, five turbidity standards were prepared using bentonite clay, and ten trials were conducted per sample to record data. During this testing, a highly variable response and severe ambient light issues were discovered. To handle the variability, the Arduino code was changed to categorize the water clarity into three distinct logical states: CLEAN, WARNING, and DANGER. This established the foundation for the data logging requirements.</p>
+        <p><strong>Iteration 2: Power, Logging, and Calibration</strong><br>With the core logic established, the focus shifted to making the device capable of remote data collection. This phase introduced SD card logging and battery integration. Short testing simulations were run, which led to the key discovery of a seemingly faulty sensor. To stabilize the readings, a polynomial calibration curve (with an R-squared of 0.987) was developed and programmed directly into the Arduino sketch. Using the new SD card module, the system was successfully programmed to log individual WARNING or DANGER areas alongside precise timestamps.</p>
+        <p><strong>Iteration 3: Geolocation and Autonomy</strong><br>A turbidity sensor is only useful if researchers know where the pollution is located. Iteration 3 transformed the project into a spatial mapping tool. An Arduino GPS module was integrated into the circuit, and the Arduino sketch was rewritten to handle autonomous 60-second sampling with CSV output. Rigorous system checks were performed, including an 11.7-hour battery duration test and GPS accuracy tests across 5 different campus locations. The micro SD card was successfully configured to record the time elapsed, the turbidity/clarity of the water, and the exact location of each entry. This data allowed the device to mark the geographical location for the most polluted areas, successfully turning it into a tool capable of finding a pollution hotspot or source.</p>
+        <p><strong>Iteration 4: Waterproofing and Field Deployment</strong><br>The final iteration addressed the physical constraints of deploying sensitive electronics in a harsh aquatic environment. With the sensor and code working perfectly, the final requirement was waterproofing the Overture PLA Air case. The physical durability of the design was put to the test through a 6-hour creek field deployment during a light rain, as well as a 3x deploy-retrieve durability test. After researching several methods like clear coating, the final design utilized a layer of clear epoxy to permanently seal all openings, including the switch, the sensor, and the lid.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Key Results</div>
+        <div class="modal-highlight"><p>During field testing, the Sediment Sentry captured a rainfall-driven turbidity spike from 14 NTU to 187 NTU and its full two-hour decay curve. A single manual reading would have missed this dynamic event entirely. The GPS-tagged CSV data enabled spatial turbidity mapping, turning a waterway into a living dataset.</p></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid">
+          <div class="modal-image-placeholder"><img src="sediment-exterior.png" alt="Sediment Sentry assembled exterior with power switch"></div>
+          <div class="modal-image-placeholder"><img src="sediment-internals.png" alt="Sediment Sentry open showing Arduino and wiring"></div>
+          <div class="modal-image-placeholder"><img src="sediment-sensor.png" alt="Sediment Sentry bottom showing epoxy-sealed turbidity sensor"></div>
+          <div class="modal-image-placeholder"><img src="sediment-electronics.png" alt="Sediment Sentry top-down view of electronics bay with GPS antenna"></div>
         </div>
-    </section>
-    
-    <!-- Academics & Leadership Section -->
-    <section id="academics">
-        <h2 class="section-title">ACADEMICS & LEADERSHIP</h2>
-        <div class="about-content">
-            <div class="about-text">
-                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); font-size: 1.5rem; margin-bottom: 20px;">Academic Excellence</h3>
-                <p><strong>North Gwinnett High School</strong> - Junior</p>
-                <p style="margin-top: 10px; color: #aaa;">13 Advanced Placement courses including AP Physics 1, AP Calculus AB, AP Biology, and AP Computer Science Principles. Georgia Tech Dual Enrollment in CS 1301 and CS 1331.</p>
-                <p style="margin-top: 15px;"><strong>Awards:</strong> AP Scholar with Distinction, Governor's Honors Program Semifinalist (Physics)</p>
-                
-                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); font-size: 1.5rem; margin: 30px 0 20px 0;">Leadership & Service</h3>
-                <p><strong>Technology Student Association</strong> - Officer</p>
-                <p style="color: #aaa;">Lead teams in state-level competitions across video game design, software development, engineering design, and manufacturing. Target: Top 10 statewide across multiple events.</p>
-                
-                <p style="margin-top: 15px;"><strong>International Internship Program</strong> - Business Community Service</p>
-                <p style="color: #aaa;">Two-year participant working with Nigerian business leaders. Provide digital transformation support including online advertising, product setup, and organizational systems. 150+ service hours earned.</p>
-                
-                <p style="margin-top: 15px;"><strong>National Honor Society</strong> - Member (Top 15% of class)</p>
-                <p style="margin-top: 10px;"><strong>College Board Ambassador</strong> - Fall 2025</p>
-            </div>
-            <div class="stats">
-                <div class="stat-card">
-                    <span class="stat-number">13</span>
-                    <span class="stat-label">AP Courses</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">GT</span>
-                    <span class="stat-label">Dual Enrollment</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">TOP 15%</span>
-                    <span class="stat-label">Class Rank</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">GHP</span>
-                    <span class="stat-label">Semifinalist</span>
-                </div>
-            </div>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">Arduino Uno</span><span class="tech-chip">IR LED + Photodiode</span><span class="tech-chip">NEO-6M GPS</span><span class="tech-chip">MicroSD Breakout</span><span class="tech-chip">18650 LiPo</span><span class="tech-chip">Polynomial Calibration</span><span class="tech-chip">PETG 3D Print</span><span class="tech-chip">Marine Silicone</span><span class="tech-chip">CSV Data Logging</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-soundalert">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #EF4444, #F59E0B);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('soundalert')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-ai">AI + Embedded Systems</span>
+      <span class="modal-tag tag-competition">Science Fair Entry</span>
+      <h2 class="modal-title">Sound Alert Pro</h2>
+      <p class="modal-subtitle">AI-Powered Sound Monitoring System // YAMNet (521 Categories) // Real-Time Classification</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>Sound Alert Pro is a real-time sound monitoring and classification system running on a Raspberry Pi. It uses Google's YAMNet model (a TensorFlow Lite audio classifier trained on AudioSet) to identify over 521 distinct sound categories from live microphone input, then triggers configurable alerts when specific sounds are detected above a confidence threshold. The system was designed for home safety applications: detecting fire alarms, glass breaking, sirens, doorbells, and other critical sounds, then pushing instant notifications to the user's phone.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">How It Works</div>
+        <p>The core pipeline records 2-second audio clips at 48kHz from a USB microphone, resamples them to 16kHz (YAMNet's expected input rate) using SciPy, feeds the waveform into the TensorFlow Lite interpreter, and receives classification scores across all 521 sound categories. If any enabled sound exceeds the 25% confidence threshold, the system logs the detection with a timestamp, emits a WebSocket event for live dashboard updates, and sends a push notification via Pushbullet with a per-sound cooldown to prevent alert spam.</p>
+        <p>The system includes a priority classification engine that assigns severity levels (1-10) to detected sounds. Critical sounds like fire alarms and glass breaking receive the highest priority and shorter notification cooldowns, while ambient sounds like bird calls or traffic are logged but do not trigger urgent alerts.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Web Dashboard</div>
+        <p>A Flask-based web dashboard provides real-time monitoring through a dark-themed UI served on the local network. The dashboard shows live detection feeds (updating via WebSocket without page refresh), hourly detection frequency charts, sound category breakdowns, system health indicators (CPU temperature, uptime, memory usage), and controls for starting/stopping monitoring and configuring which sounds to track. Detection data is also logged to timestamped CSV files for later analysis.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Offline Adaptation</div>
+        <div class="modal-highlight"><p>A key engineering challenge was adapting the system for fully offline operation. The original design relied on Pushbullet (requiring internet access) for notifications. The offline version replaces this with local push notifications on the Pi itself and stores all alert history locally, making the system viable for field deployment or locations without internet access.</p></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Demo Video</div>
+        <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin-bottom:1.5rem;border:1px solid var(--border);">
+          <iframe src="https://www.youtube.com/embed/FN7jXybJcmc" title="Sound Alert Pro Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
         </div>
-    </section>
-    
-    <!-- Skills Section -->
-    <section id="skills">
-        <h2 class="section-title">SKILLS</h2>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h3>Languages</h3>
-                <ul class="skill-list">
-                    <li>Python</li>
-                    <li>JavaScript/TypeScript</li>
-                    <li>Java</li>
-                    <li>C++</li>
-                    <li>HTML/CSS</li>
-                    <li>SQL</li>
-                </ul>
-            </div>
-            
-            <div class="skill-category">
-                <h3>Frameworks & Tools</h3>
-                <ul class="skill-list">
-                    <li>TensorFlow / TensorFlow Lite</li>
-                    <li>Flask / REST APIs</li>
-                    <li>React / Web Development</li>
-                    <li>Unity Game Engine</li>
-                    <li>Git / GitHub</li>
-                    <li>MIT App Inventor</li>
-                </ul>
-            </div>
-            
-            <div class="skill-category">
-                <h3>Engineering & Hardware</h3>
-                <ul class="skill-list">
-                    <li>CAD (Fusion 360, SolidWorks)</li>
-                    <li>FEA Analysis</li>
-                    <li>3D Printing</li>
-                    <li>Arduino / Raspberry Pi</li>
-                    <li>Circuit Design</li>
-                    <li>Sensor Integration</li>
-                </ul>
-            </div>
-            
-            <div class="skill-category">
-                <h3>Specializations</h3>
-                <ul class="skill-list">
-                    <li>Machine Learning / AI</li>
-                    <li>Game Development</li>
-                    <li>IoT Systems</li>
-                    <li>Physics Simulation</li>
-                    <li>Mobile App Development</li>
-                    <li>Environmental Tech</li>
-                </ul>
-            </div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid">
+          <div class="modal-image-placeholder"><img src="soundalert-board.png" alt="Raspberry Pi 4 mounted on 7-inch DSI display board"></div>
+          <div class="modal-image-placeholder"><img src="soundalert-case-front.png" alt="Sound Alert Pro front view in 3D-printed enclosure"></div>
+          <div class="modal-image-placeholder"><img src="soundalert-case-back.png" alt="Sound Alert Pro rear view showing Pi and ribbon cable"></div>
+          <div class="modal-image-placeholder"><img src="soundalert-side.png" alt="Raspberry Pi side profile mounted on display"></div>
         </div>
-    </section>
-    
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2 class="section-title">CONTACT</h2>
-        <div class="contact-content">
-            <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 20px;">
-                Interested in my work? Whether you're a college admissions officer, recruiter, fellow student, or just want to collaborate on a project – I'd love to connect!
-            </p>
-            <div class="contact-grid">
-                <a href="mailto:brandonfwhitehead@outlook.com" class="contact-card">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-label">Email</div>
-                </a>
-                <a href="https://github.com/brandonfwh" target="_blank" class="contact-card">
-                    <div class="contact-icon">💻</div>
-                    <div class="contact-label">GitHub</div>
-                </a>
-                <a href="https://www.linkedin.com/in/brandon-whitehead-04a932335/" target="_blank" class="contact-card">
-                    <div class="contact-icon">🔗</div>
-                    <div class="contact-label">LinkedIn</div>
-                </a>
-            </div>
+      </div>
+      <div style="margin-top:1.5rem;margin-bottom:0.5rem;"><a href="https://github.com/brandonfwh/sound-alert-pro" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--gt-gold);text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;background:rgba(179,163,105,0.08);border:1px solid rgba(179,163,105,0.2);border-radius:6px;transition:all 0.2s;" onmouseover="this.style.background='rgba(179,163,105,0.15)'" onmouseout="this.style.background='rgba(179,163,105,0.08)'"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View Source on GitHub</a></div>
+      <div class="modal-footer-tech"><span class="tech-chip">Raspberry Pi</span><span class="tech-chip">Python</span><span class="tech-chip">TensorFlow Lite</span><span class="tech-chip">YAMNet (521 classes)</span><span class="tech-chip">Flask + WebSocket</span><span class="tech-chip">SciPy (resampling)</span><span class="tech-chip">Pushbullet API</span><span class="tech-chip">CSV Logging</span><span class="tech-chip">USB Audio DSP</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-handtrack">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #3B82F6, #8B5CF6);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('handtrack')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-software">Computer Vision</span>
+      <span class="modal-tag tag-ai">Machine Learning</span>
+      <h2 class="modal-title">HandWave &amp; Hand Pong</h2>
+      <p class="modal-subtitle">Gesture-Controlled Applications // MediaPipe Hand Landmarker // Real-Time at 30+ FPS</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>This project is a suite of gesture-controlled applications powered by Google's MediaPipe Hand Landmarker model, which tracks 21 landmarks on each hand in real time through a standard webcam. What started as a basic experiment with LED feedback evolved into two polished applications: HandWave, a two-hand musical instrument, and Hand Pong, a fully featured Pong game controlled entirely by hand gestures.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">HandWave: Gesture-Controlled Instrument</div>
+        <p>HandWave maps hand position and finger states to real-time audio synthesis. The system tracks one hand and uses finger count to select notes within a musical scale, palm height (Y position) for volume control, palm X position for pitch in theremin mode, and hand roll angle for vibrato depth. A pinch gesture sustains the current note, and swiping left or right cycles through scale modes (pentatonic, major, minor, blues, chromatic).</p>
+        <p>The application supports three playing modes: Scale mode (finger count picks discrete notes), Theremin mode (continuous pitch mapped to horizontal hand position, like a real theremin), and Chord mode (gestures trigger full chords). Audio is synthesized in real time and can optionally drive physical LEDs through an Arduino serial connection for a visual performance element.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Hand Pong: Gesture-Controlled Game</div>
+        <p>Hand Pong turns the webcam into a two-player Pong controller. The left hand controls the left paddle and the right hand controls the right paddle, with vertical hand position mapped to paddle movement. Beyond basic controls, the game recognizes five distinct gestures as special abilities:</p>
+        <div class="modal-tech-grid">
+          <div class="modal-tech-item">Pinch = Power Shot (1.8x ball speed, fire trail, screen shake)</div>
+          <div class="modal-tech-item">Fist = Shield (paddle doubles in size temporarily)</div>
+          <div class="modal-tech-item">Rock On = Curve Ball (adds spin, ball curves mid-flight)</div>
+          <div class="modal-tech-item">Thumbs Up = Taunt (cosmetic, displays messages)</div>
+          <div class="modal-tech-item">Peace Sign = Restart (after game over)</div>
+          <div class="modal-tech-item">Toggle display modes (webcam vs wireframe-only)</div>
         </div>
-    </section>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
-        
-        let mouseX = 0;
-        let mouseY = 0;
-        let followerX = 0;
-        let followerY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-        });
-        
-        function animateFollower() {
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-            
-            cursorFollower.style.left = followerX + 'px';
-            cursorFollower.style.top = followerY + 'px';
-            
-            requestAnimationFrame(animateFollower);
-        }
-        animateFollower();
-        
-        // Hover effects for cursor
-        document.querySelectorAll('a, .project-card, .stat-card, .skill-category, .contact-card, nav a').forEach(elem => {
-            elem.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(1.5)';
-                cursorFollower.style.transform = 'scale(1.5)';
-            });
-            elem.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursorFollower.style.transform = 'scale(1)';
-            });
-        });
-        
-        // Three.js 3D Background
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('scene-container').appendChild(renderer.domElement);
-        
-        // Create geometry
-        const geometry = new THREE.IcosahedronGeometry(1, 1);
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x00ffff,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.3
-        });
-        
-        const geometries = [];
-        for (let i = 0; i < 15; i++) {
-            const mesh = new THREE.Mesh(geometry, material.clone());
-            mesh.position.set(
-                (Math.random() - 0.5) * 20,
-                (Math.random() - 0.5) * 20,
-                (Math.random() - 0.5) * 20
-            );
-            mesh.rotation.set(
-                Math.random() * Math.PI,
-                Math.random() * Math.PI,
-                Math.random() * Math.PI
-            );
-            mesh.userData.rotationSpeed = {
-                x: (Math.random() - 0.5) * 0.01,
-                y: (Math.random() - 0.5) * 0.01,
-                z: (Math.random() - 0.5) * 0.01
-            };
-            scene.add(mesh);
-            geometries.push(mesh);
-        }
-        
-        camera.position.z = 5;
-        
-        // Mouse movement effect
-        let targetX = 0;
-        let targetY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            targetX = (e.clientX / window.innerWidth) * 2 - 1;
-            targetY = -(e.clientY / window.innerHeight) * 2 + 1;
-        });
-        
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            geometries.forEach(mesh => {
-                mesh.rotation.x += mesh.userData.rotationSpeed.x;
-                mesh.rotation.y += mesh.userData.rotationSpeed.y;
-                mesh.rotation.z += mesh.userData.rotationSpeed.z;
-            });
-            
-            camera.position.x += (targetX * 2 - camera.position.x) * 0.05;
-            camera.position.y += (targetY * 2 - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-            
-            renderer.render(scene, camera);
-        }
-        animate();
-        
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-        
-        // Create floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            particlesContainer.appendChild(particle);
-        }
-        
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-        
-        // Intersection Observer for animations
-        const observerOptions = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-        
-        document.querySelectorAll('.project-card, .stat-card, .skill-category').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(50px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
-    </script>
+        <p style="margin-top: 1rem;">The game features particle explosions on every hit, charge bars for power shot and shield abilities, a rally counter that tracks consecutive hits, screen shake on scoring, random on-screen text reactions, and a countdown timer before each round. The display can toggle between a normal webcam overlay and a clean wireframe mode that shows only the hand skeleton and game elements over a dark background.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid">
+          <div class="modal-image-placeholder" id="handtrack-img-1"><span class="placeholder-text">Image coming soon</span></div>
+          <div class="modal-image-placeholder" id="handtrack-img-2"><span class="placeholder-text">Image coming soon</span></div>
+        </div>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">Python</span><span class="tech-chip">MediaPipe Hand Landmarker</span><span class="tech-chip">OpenCV</span><span class="tech-chip">NumPy</span><span class="tech-chip">Real-Time Audio Synthesis</span><span class="tech-chip">Gesture Recognition</span><span class="tech-chip">Particle System</span><span class="tech-chip">Arduino Serial (optional)</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-tsa">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #B3A369, #D6CB8E);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('tsa')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-competition">TSA Competition</span>
+      <span class="modal-tag tag-software">Game Development</span>
+      <h2 class="modal-title">TSA Event Projects</h2>
+      <p class="modal-subtitle">Technology Student Association // Game Design + VR Simulation Events</p>
+      <div class="modal-section">
+        <div class="modal-section-title">EchoShift Expedition</div>
+        <p>EchoShift Expedition is a 2D puzzle-platformer built in Godot Engine 4.5.1 for the TSA Game Design event. The game's central mechanic is the "EchoBand," a wrist-mounted device that allows the player to record their movements and replay them as a semi-transparent duplicate (an "echo"). This creates cooperative puzzles where the player must work with their own past self: an echo can hold down a pressure plate while the real player passes through a gate, or ride a moving platform to a location the player cannot reach directly.</p>
+        <p>Beyond basic echo recording, the game introduces three time-manipulation abilities that layer on top of the core mechanic. Rewind reverses an object's state to its previous position. Forward-Shift projects objects into their future state. Stabilize freezes an object in temporal stasis, locking it in place regardless of physics. Level design follows a teach-test-extend philosophy, where each mechanic is introduced in isolation, tested in a focused challenge, then combined with previous mechanics in increasingly complex puzzles.</p>
+        <p>All pixel art, chiptune music, and sound effects are original creations by the team. The game was built for WebGL browser deployment to meet TSA's playability requirements.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Evolution of Transportation</div>
+        <p>This project is an interactive, on-rails museum simulation built for the TSA Virtual Reality Simulation event. The experience takes the viewer through eight eras of transportation history, from walking to spaceflight, with each era featuring its own 3D environment, vehicle model, sound design, and narration voice lines.</p>
+        <p>The simulation was built in Godot 4.5.1 with a Path3D-based ride system that moves the camera along scripted paths through each era's environment. Audio management handles crossfading between ambient sound layers, vehicle sound effects, one-shot events (whistles, horns, rocket launches), and narration. Originally designed for VR headset rendering, the project was adapted to a flatscreen "simulated VR" mode with mouse-look camera controls due to hardware constraints at the competition venue. This required significant rework of the camera positioning, movement systems, and HUD layout.</p>
+        <p>The eight eras are: Walking, Horseback, Horse-Drawn Carriage, Steamboat, Steam Train, Automobile, Early Airplane, and Spaceship. Each era transition uses a fade-to-black sequence with environment and lighting changes to match the time period.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid">
+          <div class="modal-image-placeholder" id="tsa-img-1"><span class="placeholder-text">Image coming soon</span></div>
+          <div class="modal-image-placeholder" id="tsa-img-2"><span class="placeholder-text">Image coming soon</span></div>
+        </div>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">Godot 4.5.1</span><span class="tech-chip">GDScript</span><span class="tech-chip">Path3D / PathFollow3D</span><span class="tech-chip">Pixel Art</span><span class="tech-chip">Chiptune Audio</span><span class="tech-chip">WebGL Export</span><span class="tech-chip">3D Environment Design</span><span class="tech-chip">Narration System</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<section id="academics">
+  <div class="section-header reveal"><div class="section-label">Academic Record</div><h2 class="section-title">Coursework Highlights</h2></div>
+  <div class="academics-grid">
+    <div class="course-table reveal">
+      <div class="course-table-header"><span>Course</span><span>Semester</span><span style="text-align:right">Weighted</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Calculus AB</span><span class="course-type">10th, S1-S2</span><span class="course-grade grade-a">95 / 102</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Physics I</span><span class="course-type">11th, S1</span><span class="course-grade grade-high">103</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Computer Science Principles</span><span class="course-type">10th, S1-S2</span><span class="course-grade grade-a">101 / 103</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Environmental Science</span><span class="course-type">10th, S1-S2</span><span class="course-grade grade-a">98 / 109</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Biology</span><span class="course-type">11th, S1</span><span class="course-grade grade-a">95</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Language &amp; Composition</span><span class="course-type">11th, S1</span><span class="course-grade grade-high">109</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>US History</span><span class="course-type">11th, S1</span><span class="course-grade grade-a">97</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Precalculus (Gifted)</span><span class="course-type">9th, S1-S2</span><span class="course-grade grade-a">90 / 100</span></div>
+      <div class="course-row"><span class="course-name">Advanced Calculus II (Gifted)</span><span class="course-type">11th, S1</span><span class="course-grade grade-high">100</span></div>
+      <div class="course-row"><span class="course-name">PS Intro to Computing (GT DE)</span><span class="course-type">11th, S1</span><span class="course-grade grade-a">85</span></div>
+      <div class="course-row"><span class="course-name">Science &amp; Engineering Research I-IV</span><span class="course-type">9th - 11th</span><span class="course-grade grade-high">97 - 100</span></div>
+      <div class="course-row"><span class="course-name">Latin II - III</span><span class="course-type">9th - 10th</span><span class="course-grade grade-a">94 - 98</span></div>
+    </div>
+    <div class="academic-sidebar reveal">
+      <div class="stat-card stat-gold"><div class="stat-number">4.220</div><div class="stat-desc">Weighted GPA</div></div>
+      <div class="stat-card stat-green"><div class="stat-number">98.39</div><div class="stat-desc">Weighted Numeric Avg</div></div>
+      <div class="stat-card stat-blue"><div class="stat-number">Top 14%</div><div class="stat-desc">Class Rank (105/751)</div></div>
+      <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+        <h3 style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">AP Exams Taken</h3>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:2;">Human Geography, Precalculus, Calculus AB, Computer Science Principles, Environmental Science, World History, Seminar, Language &amp; Composition, Biology, Physics I, US History</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="skills">
+  <div class="section-header reveal"><div class="section-label">Technical Capabilities</div><h2 class="section-title">Skills &amp; Technologies</h2></div>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <h3>Hardware &amp; Embedded</h3>
+      <div class="skill-item"><span class="skill-dot"></span>ESP32 / Arduino</div>
+      <div class="skill-item"><span class="skill-dot"></span>Raspberry Pi</div>
+      <div class="skill-item"><span class="skill-dot"></span>Circuit Design &amp; Soldering</div>
+      <div class="skill-item"><span class="skill-dot"></span>I2C / SPI / UART Protocols</div>
+      <div class="skill-item"><span class="skill-dot"></span>Sensor Integration</div>
+      <div class="skill-item"><span class="skill-dot"></span>Battery &amp; Power Systems</div>
+      <div class="skill-item"><span class="skill-dot"></span>3D Printing / CAD (Fusion 360)</div>
+    </div>
+    <div class="skill-group reveal">
+      <h3>Programming</h3>
+      <div class="skill-item"><span class="skill-dot"></span>Python</div>
+      <div class="skill-item"><span class="skill-dot"></span>C / C++ (Embedded)</div>
+      <div class="skill-item"><span class="skill-dot"></span>Java (AP / GT)</div>
+      <div class="skill-item"><span class="skill-dot"></span>GDScript (Godot)</div>
+      <div class="skill-item"><span class="skill-dot"></span>HTML / CSS / JavaScript</div>
+      <div class="skill-item"><span class="skill-dot"></span>Arduino IDE / PlatformIO</div>
+      <div class="skill-item"><span class="skill-dot"></span>Git Version Control</div>
+    </div>
+    <div class="skill-group reveal">
+      <h3>Domains &amp; Frameworks</h3>
+      <div class="skill-item"><span class="skill-dot"></span>Computer Vision (OpenCV, MediaPipe)</div>
+      <div class="skill-item"><span class="skill-dot"></span>Machine Learning (TensorFlow, YAMNet)</div>
+      <div class="skill-item"><span class="skill-dot"></span>Audio Signal Processing</div>
+      <div class="skill-item"><span class="skill-dot"></span>Game Development (Godot, Pygame)</div>
+      <div class="skill-item"><span class="skill-dot"></span>Data Logging &amp; Visualization</div>
+      <div class="skill-item"><span class="skill-dot"></span>Technical Documentation</div>
+      <div class="skill-item"><span class="skill-dot"></span>VEX V5 Robotics</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-name">Brandon Whitehead</div>
+    <div class="footer-tagline">North Gwinnett High School '27 &nbsp;|&nbsp; Georgia Tech Dual Enrollment &nbsp;|&nbsp; Electrical Engineering</div>
+    <div class="footer-links"><a href="#projects">Projects</a><a href="#academics">Academics</a><a href="#skills">Skills</a></div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  const canvas = document.getElementById('circuitCanvas');
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+  const nodes = [];
+  for (let i = 0; i < 50; i++) nodes.push({ x: Math.random()*w, y: Math.random()*h, vx: (Math.random()-0.5)*0.3, vy: (Math.random()-0.5)*0.3, r: Math.random()*2+1 });
+  function draw() {
+    ctx.clearRect(0,0,w,h);
+    for (let i=0;i<nodes.length;i++) for (let j=i+1;j<nodes.length;j++) {
+      const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y, dist=Math.sqrt(dx*dx+dy*dy);
+      if (dist<200) { ctx.beginPath(); ctx.moveTo(nodes[i].x,nodes[i].y); const mx=(nodes[i].x+nodes[j].x)/2; ctx.lineTo(mx,nodes[i].y); ctx.lineTo(mx,nodes[j].y); ctx.lineTo(nodes[j].x,nodes[j].y); ctx.strokeStyle=`rgba(179,163,105,${0.06*(1-dist/200)})`; ctx.lineWidth=1; ctx.stroke(); }
+    }
+    for (const n of nodes) { ctx.beginPath(); ctx.arc(n.x,n.y,n.r,0,Math.PI*2); ctx.fillStyle='rgba(179,163,105,0.15)'; ctx.fill(); n.x+=n.vx; n.y+=n.vy; if(n.x<0||n.x>w)n.vx*=-1; if(n.y<0||n.y>h)n.vy*=-1; }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, idx) => { if (entry.isIntersecting) { setTimeout(()=>entry.target.classList.add('visible'), idx*80); observer.unobserve(entry.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+
+function openModal(id) { const m=document.getElementById('modal-'+id); if(m){m.classList.add('active'); document.body.style.overflow='hidden';} }
+function closeModal(id) { const m=document.getElementById('modal-'+id); if(m){m.classList.remove('active'); document.body.style.overflow='';} }
+document.querySelectorAll('.modal-overlay').forEach(o => { o.addEventListener('click', e => { if(e.target===o){o.classList.remove('active'); document.body.style.overflow='';} }); });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){document.querySelectorAll('.modal-overlay.active').forEach(m=>{m.classList.remove('active');}); document.body.style.overflow='';} });
+</script>
 </body>
 </html>
