@@ -121,9 +121,9 @@
 
   .academics-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
   .course-table { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  .course-table-header { display: grid; grid-template-columns: 2fr 1fr 0.6fr; padding: 0.75rem 1.25rem; background: rgba(179, 163, 105, 0.06); border-bottom: 1px solid var(--border); }
+  .course-table-header { display: grid; grid-template-columns: 2fr 1fr; padding: 0.75rem 1.25rem; background: rgba(179, 163, 105, 0.06); border-bottom: 1px solid var(--border); }
   .course-table-header span { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
-  .course-row { display: grid; grid-template-columns: 2fr 1fr 0.6fr; padding: 0.55rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s; }
+  .course-row { display: grid; grid-template-columns: 2fr 1fr; padding: 0.55rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.03); transition: background 0.2s; }
   .course-row:hover { background: rgba(255,255,255,0.02); }
   .course-row:last-child { border-bottom: none; }
   .course-name { font-size: 0.82rem; color: var(--text-primary); }
@@ -187,6 +187,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#academics">Academics</a></li>
+      <li><a href="#activities">Activities</a></li>
       <li><a href="#skills">Skills</a></li>
     </ul>
   </div>
@@ -201,9 +202,9 @@
     <p class="hero-subtitle">Junior at North Gwinnett High School and dual enrollment student at Georgia Tech. Building at the intersection of embedded systems, AI, and hands-on engineering.</p>
     <div class="hero-stats">
       <div class="hero-stat"><span class="value">4.22</span><span class="label">GPA (Weighted)</span></div>
+      <div class="hero-stat"><span class="value">35</span><span class="label">ACT Superscore</span></div>
       <div class="hero-stat"><span class="value">105</span><span class="label">Class Rank / 751</span></div>
       <div class="hero-stat"><span class="value">23.5</span><span class="label">Credits Earned</span></div>
-      <div class="hero-stat"><span class="value">8</span><span class="label">AP Courses</span></div>
     </div>
   </div>
 </section>
@@ -214,20 +215,20 @@
   <div class="section-header reveal"><div class="section-label">Background</div><h2 class="section-title">About Me</h2></div>
   <div class="about-grid">
     <div class="about-text reveal">
-      <p>I am a junior at North Gwinnett High School in Suwanee, Georgia, with a deep passion for electrical engineering and embedded systems. Currently dual enrolled at the Georgia Institute of Technology, I am pursuing my goal of majoring in Electrical Engineering, where I can bring together my interests in circuit design, microcontroller programming, and signal processing.</p>
-      <p>My project work spans from wearable computing devices built around the ESP32 platform to environmental monitoring systems, AI-powered audio classification, and computer vision applications. I compete actively in TSA (Technology Student Association) events and am presenting original research at Gwinnett County's local Science Fair.</p>
-      <p>Beyond the technical work, I bring three years of Latin study, strong foundations in AP-level math and science, and a consistent record of academic excellence. I thrive on projects that blend hardware and software to solve real problems.</p>
+      <p>I am a junior at North Gwinnett High School in Suwanee, Georgia, with a deep passion for electrical engineering and embedded systems. Currently dual enrolled at the Georgia Institute of Technology (taking CS 1301 and CS 1331), I am pursuing my goal of majoring in Electrical Engineering as an in-state student with legacy at GT.</p>
+      <p>My project work spans from wearable computing devices built around the ESP32 platform to environmental monitoring systems, AI-powered audio classification, computer vision applications, and CAD/FEA work for a medical robotics startup. I compete actively in TSA (Technology Student Association) events as a club officer, am presenting original research at Gwinnett County's local Science Fair, and am currently a semifinalist for the Governor's Honors Program in Physics.</p>
+      <p>Beyond the technical work, I bring three years of Latin study, an ACT Superscore of 35, AP Scholar with Distinction recognition, and over 150 community service hours through the Leadership Initiatives International Internship Program working with small businesses in Nigeria.</p>
     </div>
     <div class="about-details reveal">
       <h3>Quick Facts</h3>
       <div class="detail-row"><span class="detail-key">School</span><span class="detail-value">North Gwinnett High</span></div>
       <div class="detail-row"><span class="detail-key">Grade</span><span class="detail-value">11th (Junior)</span></div>
-      <div class="detail-row"><span class="detail-key">Dual Enrollment</span><span class="detail-value gold">Georgia Tech</span></div>
+      <div class="detail-row"><span class="detail-key">Dual Enrollment</span><span class="detail-value gold">Georgia Tech (CS 1301, 1331)</span></div>
       <div class="detail-row"><span class="detail-key">Target Major</span><span class="detail-value gold">Electrical Engineering</span></div>
-      <div class="detail-row"><span class="detail-key">Weighted GPA</span><span class="detail-value">4.220</span></div>
-      <div class="detail-row"><span class="detail-key">Weighted Avg</span><span class="detail-value">98.39</span></div>
-      <div class="detail-row"><span class="detail-key">Competition</span><span class="detail-value">TSA / Science Fair</span></div>
-      <div class="detail-row"><span class="detail-key">Languages</span><span class="detail-value">Latin (3 years)</span></div>
+      <div class="detail-row"><span class="detail-key">GPA / ACT</span><span class="detail-value">4.22 W / 35 ACT</span></div>
+      <div class="detail-row"><span class="detail-key">Residency</span><span class="detail-value">In-State (GA) + Legacy</span></div>
+      <div class="detail-row"><span class="detail-key">GHP Semifinalist</span><span class="detail-value gold">Physics</span></div>
+      <div class="detail-row"><span class="detail-key">Service Hours</span><span class="detail-value">150+</span></div>
     </div>
   </div>
 </section>
@@ -286,12 +287,120 @@
       <h3 class="project-title">TSA Event Projects</h3>
       <p class="project-desc">Active competitor in multiple TSA events including game design and virtual reality simulation. Projects include EchoShift Expedition (2D puzzle-platformer) and Evolution of Transportation (VR museum simulation).</p>
       <div class="project-tech"><span class="tech-chip">Godot 4.5</span><span class="tech-chip">GDScript</span><span class="tech-chip">Game Design</span><span class="tech-chip">VR Sim</span></div>
-      <span class="click-hint">Click to expand ></span>
+      <span class="click-hint">Click to expand &gt;</span>
     </div>
+
+    <!-- Gravity Car -->
+    <div class="project-card reveal" style="--card-accent: #D6CB8E;" onclick="openModal('gravitycar')">
+      <span class="project-tag tag-hardware">Mechanical Engineering</span>
+      <span class="project-tag tag-competition" style="margin-left: 0.4rem;">6th in State</span>
+      <h3 class="project-title">TSA Gravity Car</h3>
+      <p class="project-desc">A competition vehicle powered solely by the gravitational potential energy of a falling Coke can. Designed a pulley system converting vertical descent into wheel rotation. Placed 6th at Georgia state level.</p>
+      <div class="project-tech"><span class="tech-chip">Pulley System</span><span class="tech-chip">Mechanical Design</span><span class="tech-chip">Energy Transfer</span><span class="tech-chip">TSA</span></div>
+      <span class="click-hint">Click to expand &gt;</span>
+    </div>
+
+    <!-- Medical Robot CAD -->
+    <div class="project-card reveal" style="--card-accent: #8B5CF6;" onclick="openModal('medrobot')">
+      <span class="project-tag tag-software">CAD / FEA</span>
+      <h3 class="project-title">Medical Robot CAD &amp; FEA</h3>
+      <p class="project-desc">Created the full CAD model and performed finite element analysis for a startup developing autonomous AI-powered medical robots with a 3D-printer-style axis motion system.</p>
+      <div class="project-tech"><span class="tech-chip">Fusion 360</span><span class="tech-chip">FEA Analysis</span><span class="tech-chip">3-Axis Motion</span><span class="tech-chip">Medical Robotics</span></div>
+      <span class="click-hint">Click to expand &gt;</span>
+    </div>
+
+    <!-- Orbital Mechanics Sim -->
+    <div class="project-card reveal" style="--card-accent: #06B6D4;" onclick="openModal('orbital')">
+      <span class="project-tag tag-software">Physics Simulation</span>
+      <h3 class="project-title">Orbital Mechanics Simulator</h3>
+      <p class="project-desc">A self-initiated orbital mechanics simulation for AP Physics, modeling Newtonian gravitational interactions and orbital trajectories with real-time visualization.</p>
+      <div class="project-tech"><span class="tech-chip">Physics Sim</span><span class="tech-chip">Newtonian Gravity</span><span class="tech-chip">Numerical Integration</span></div>
+      <span class="click-hint">Click to expand &gt;</span>
+    </div>
+
   </div>
 </section>
 
-<!-- MODALS -->
+<!-- NEW PROJECT MODALS -->
+<div class="modal-overlay" id="modal-gravitycar">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #D6CB8E, #B3A369);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('gravitycar')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-hardware">Mechanical Engineering</span>
+      <span class="modal-tag tag-competition">6th Place - Georgia State</span>
+      <h2 class="modal-title">TSA Gravity Car</h2>
+      <p class="modal-subtitle">Gravitational Potential Energy Vehicle // Pulley-Driven Propulsion // TSA State Competition</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>The TSA Gravity Car is a competition vehicle designed and built for the TSA engineering event. The challenge requires constructing a car whose wheels are driven exclusively by the gravitational potential energy of a standard Coke can. No motors, batteries, rubber bands, or other stored energy sources are allowed. The only propulsion comes from the falling motion of the can, which is attached to a string routed through a pulley system that converts vertical descent into horizontal wheel rotation.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Design &amp; Engineering</div>
+        <p>The vehicle uses a pulley system that mechanically links the falling Coke can to the drive axle. As the can drops, the string unwinds and turns the wheels through the pulley's mechanical advantage. Key engineering decisions included optimizing the pulley ratio for the best balance between torque (to overcome initial friction and get the car rolling) and speed (to maximize distance traveled), minimizing rolling resistance through wheel selection and axle lubrication, and keeping overall mass as low as possible while maintaining structural rigidity.</p>
+        <div class="modal-highlight"><p>The car placed 6th at the Georgia state TSA competition, competing against entries from schools across the state.</p></div>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid"><div class="modal-image-placeholder"><span class="placeholder-text">Image coming soon</span></div></div>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">Pulley System</span><span class="tech-chip">Mechanical Advantage</span><span class="tech-chip">Energy Conversion</span><span class="tech-chip">Low-Friction Design</span><span class="tech-chip">TSA Competition</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-medrobot">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #8B5CF6, #6D28D9);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('medrobot')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-software">CAD / FEA</span>
+      <h2 class="modal-title">Medical Robot CAD &amp; FEA</h2>
+      <p class="modal-subtitle">Autonomous AI-Powered Medical Robotics // 3-Axis Motion System // Startup Engineering</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>I was brought on to create the complete CAD model and perform finite element analysis for a small startup developing autonomous, AI-powered medical robots. The robot's mechanical platform uses a 3D-printer-like Cartesian axis motion system (X, Y, Z linear rails with stepper-driven lead screws) to achieve the precision positioning required for medical applications.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">CAD &amp; Analysis Work</div>
+        <p>The CAD model was built in Fusion 360 and encompasses the full mechanical assembly: the frame structure, all three axis carriages with linear rail mounts, stepper motor brackets, lead screw assemblies, and the end-effector mounting plate. The design needed to balance rigidity (to maintain positioning accuracy under load) with weight (for portability in clinical settings).</p>
+        <p>FEA simulations were run on critical structural components to validate that deflection under expected operating loads stayed within the tolerance required for medical precision. Stress concentrations at mounting points and rail interfaces were identified and addressed through design revisions before any physical prototyping began.</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Photos</div>
+        <div class="modal-image-grid"><div class="modal-image-placeholder"><span class="placeholder-text">Image coming soon</span></div></div>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">Fusion 360</span><span class="tech-chip">FEA Simulation</span><span class="tech-chip">3-Axis Cartesian</span><span class="tech-chip">Linear Rails</span><span class="tech-chip">Stepper Motors</span><span class="tech-chip">Medical Device Design</span><span class="tech-chip">Startup</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-orbital">
+  <div class="modal-content">
+    <div class="modal-accent" style="background: linear-gradient(90deg, #06B6D4, #0891B2);"></div>
+    <div class="modal-header"><div></div><button class="modal-close" onclick="closeModal('orbital')">ESC / Close</button></div>
+    <div class="modal-body">
+      <span class="modal-tag tag-software">Physics Simulation</span>
+      <h2 class="modal-title">Orbital Mechanics Simulator</h2>
+      <p class="modal-subtitle">Newtonian Gravity Simulation // Self-Initiated AP Physics Project // Real-Time Visualization</p>
+      <div class="modal-section">
+        <div class="modal-section-title">Overview</div>
+        <p>Built on my own initiative for AP Physics, this orbital mechanics simulator models gravitational interactions between celestial bodies in real time. The simulation implements Newton's law of universal gravitation to compute attractive forces between all bodies, then numerically integrates their trajectories to produce realistic orbital paths, elliptical orbits, gravitational slingshots, and multi-body interactions.</p>
+        <p>The project demonstrates applied understanding of key physics concepts including gravitational force, centripetal acceleration, orbital velocity, conservation of energy and angular momentum, and the relationship between initial conditions and orbital shape (circular, elliptical, parabolic, and hyperbolic trajectories).</p>
+      </div>
+      <div class="modal-section">
+        <div class="modal-section-title">Live Demo</div>
+        <div style="position:relative;height:500px;overflow:hidden;border-radius:8px;border:1px solid var(--border);margin-bottom:0.5rem;">
+          <iframe src="orbital-simulator.html" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" title="Orbital Mechanics Simulator"></iframe>
+        </div>
+        <a href="orbital-simulator.html" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gt-gold);text-decoration:none;display:inline-block;margin-top:0.5rem;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Open full screen ></a>
+      </div>
+      <div class="modal-footer-tech"><span class="tech-chip">Physics Simulation</span><span class="tech-chip">Newtonian Gravity</span><span class="tech-chip">Numerical Integration</span><span class="tech-chip">Real-Time Rendering</span><span class="tech-chip">HTML / CSS / JavaScript</span><span class="tech-chip">AP Physics</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- EXISTING MODALS -->
 <div class="modal-overlay" id="modal-pipboy">
   <div class="modal-content">
     <div class="modal-accent" style="background: linear-gradient(90deg, #F59E0B, #B3A369);"></div>
@@ -515,28 +624,72 @@
   <div class="section-header reveal"><div class="section-label">Academic Record</div><h2 class="section-title">Coursework Highlights</h2></div>
   <div class="academics-grid">
     <div class="course-table reveal">
-      <div class="course-table-header"><span>Course</span><span>Semester</span><span style="text-align:right">Weighted</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Calculus AB</span><span class="course-type">10th, S1-S2</span><span class="course-grade grade-a">95 / 102</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Physics I</span><span class="course-type">11th, S1</span><span class="course-grade grade-high">103</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Computer Science Principles</span><span class="course-type">10th, S1-S2</span><span class="course-grade grade-a">101 / 103</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Environmental Science</span><span class="course-type">10th, S1-S2</span><span class="course-grade grade-a">98 / 109</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Biology</span><span class="course-type">11th, S1</span><span class="course-grade grade-a">95</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Language &amp; Composition</span><span class="course-type">11th, S1</span><span class="course-grade grade-high">109</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>US History</span><span class="course-type">11th, S1</span><span class="course-grade grade-a">97</span></div>
-      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Precalculus (Gifted)</span><span class="course-type">9th, S1-S2</span><span class="course-grade grade-a">90 / 100</span></div>
-      <div class="course-row"><span class="course-name">Advanced Calculus II (Gifted)</span><span class="course-type">11th, S1</span><span class="course-grade grade-high">100</span></div>
-      <div class="course-row"><span class="course-name">PS Intro to Computing (GT DE)</span><span class="course-type">11th, S1</span><span class="course-grade grade-a">85</span></div>
-      <div class="course-row"><span class="course-name">Science &amp; Engineering Research I-IV</span><span class="course-type">9th - 11th</span><span class="course-grade grade-high">97 - 100</span></div>
-      <div class="course-row"><span class="course-name">Latin II - III</span><span class="course-type">9th - 10th</span><span class="course-grade grade-a">94 - 98</span></div>
+      <div class="course-table-header"><span>Course</span><span>Semester</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Calculus AB</span><span class="course-type">10th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Physics I</span><span class="course-type">11th, S1</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Computer Science Principles</span><span class="course-type">10th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Environmental Science</span><span class="course-type">10th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Biology</span><span class="course-type">11th, S1</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Language &amp; Composition</span><span class="course-type">11th, S1</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>US History</span><span class="course-type">11th, S1</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Precalculus (Gifted)</span><span class="course-type">9th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Human Geography (Gifted)</span><span class="course-type">9th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>Seminar 10 ELA (Gifted)</span><span class="course-type">10th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name"><span class="ap">AP</span>World History (Gifted)</span><span class="course-type">10th, S1-S2</span></div>
+      <div class="course-row"><span class="course-name">Advanced Calculus II (Gifted)</span><span class="course-type">11th, S1</span></div>
+      <div class="course-row"><span class="course-name">PS Intro to Computing (GT DE)</span><span class="course-type">11th, S1</span></div>
+      <div class="course-row"><span class="course-name">Science &amp; Engineering Research I-IV</span><span class="course-type">9th - 11th</span></div>
+      <div class="course-row"><span class="course-name">Latin II - III</span><span class="course-type">9th - 10th</span></div>
     </div>
     <div class="academic-sidebar reveal">
       <div class="stat-card stat-gold"><div class="stat-number">4.220</div><div class="stat-desc">Weighted GPA</div></div>
-      <div class="stat-card stat-green"><div class="stat-number">98.39</div><div class="stat-desc">Weighted Numeric Avg</div></div>
+      <div class="stat-card stat-green"><div class="stat-number">35</div><div class="stat-desc">ACT Superscore</div></div>
+      <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+        <h3 style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">ACT Breakdown</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem 1rem;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);">Reading</div><div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--gt-gold-light);font-weight:600;text-align:right;">36</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);">English</div><div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--gt-gold-light);font-weight:600;text-align:right;">35</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);">Science</div><div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent-green);font-weight:600;text-align:right;">34</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-muted);">Math</div><div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent-green);font-weight:600;text-align:right;">33</div>
+        </div>
+      </div>
       <div class="stat-card stat-blue"><div class="stat-number">Top 14%</div><div class="stat-desc">Class Rank (105/751)</div></div>
       <div class="stat-card" style="text-align: left; padding: 1.25rem;">
-        <h3 style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">AP Exams Taken</h3>
-        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:2;">Human Geography, Precalculus, Calculus AB, Computer Science Principles, Environmental Science, World History, Seminar, Language &amp; Composition, Biology, Physics I, US History</div>
+        <h3 style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--gt-gold);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Awards &amp; Honors</h3>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.9;">
+          <div style="margin-bottom:0.3rem;">AP Scholar with Distinction</div>
+          <div style="margin-bottom:0.3rem;">GHP Semifinalist (Physics)</div>
+          <div style="margin-bottom:0.3rem;">TSA Gravity Car - 6th in State</div>
+        </div>
       </div>
+      <div class="stat-card" style="text-align: left; padding: 1.25rem;">
+        <h3 style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">GT Dual Enrollment</h3>
+        <div style="font-size:0.82rem;color:var(--text-secondary);line-height:1.9;">CS 1301 (Intro to Computing), CS 1331 (Intro to OOP)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<section id="activities">
+  <div class="section-header reveal"><div class="section-label">Leadership &amp; Service</div><h2 class="section-title">Extracurriculars &amp; Activities</h2></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+    <div class="skill-group reveal">
+      <h3>Technology Student Association</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:0.75rem;">Club Officer. Compete in video game design, software design, engineering design, and manufacturing prototype events. Targeting top 10 at state this year. Gravity car placed 6th in state.</p>
+    </div>
+    <div class="skill-group reveal">
+      <h3>National Honor Society</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:0.75rem;">Leadership and volunteering club with membership restricted to the top 15% of the class.</p>
+    </div>
+    <div class="skill-group reveal">
+      <h3>Leadership Initiatives IIP</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:0.75rem;">Two-year participant (Business and Advocacy tracks). Work with small business leaders in Nigeria, helping set up advertising, products, and organizational spreadsheets online. Over 150 community service hours.</p>
+    </div>
+    <div class="skill-group reveal">
+      <h3>Additional</h3>
+      <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:0.75rem;">College Board Ambassador (Fall 2025). Governor's Honors Program Semifinalist in Physics. Gwinnett County Science Fair competitor.</p>
     </div>
   </div>
 </section>
@@ -555,6 +708,7 @@
       <div class="skill-item"><span class="skill-dot"></span>Sensor Integration</div>
       <div class="skill-item"><span class="skill-dot"></span>Battery &amp; Power Systems</div>
       <div class="skill-item"><span class="skill-dot"></span>3D Printing / CAD (Fusion 360)</div>
+      <div class="skill-item"><span class="skill-dot"></span>FEA / Structural Analysis</div>
     </div>
     <div class="skill-group reveal">
       <h3>Programming</h3>
@@ -585,7 +739,7 @@
   <div class="footer-inner">
     <div class="footer-name">Brandon Whitehead</div>
     <div class="footer-tagline">North Gwinnett High School '27 &nbsp;|&nbsp; Georgia Tech Dual Enrollment &nbsp;|&nbsp; Electrical Engineering</div>
-    <div class="footer-links"><a href="#projects">Projects</a><a href="#academics">Academics</a><a href="#skills">Skills</a></div>
+    <div class="footer-links"><a href="#projects">Projects</a><a href="#academics">Academics</a><a href="#activities">Activities</a><a href="#skills">Skills</a></div>
   </div>
 </footer>
 
