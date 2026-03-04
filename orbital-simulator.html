@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orbital Mechanics Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #111827;
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 8px 12px;
+            background-color: #374151;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        button:hover {
+            background-color: #4b5563;
+        }
+        
+        select {
+            padding: 8px 12px;
+            background-color: #374151;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .checkboxes {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        label {
+            cursor: pointer;
+        }
+        
+        #canvas {
+            display: block;
+            width: 100%;
+            max-width: 800px;
+            background-color: #000;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Orbital Mechanics Simulator</h1>
+        
+        <div class="controls">
+            <button id="playBtn" onclick="togglePlay()">Play</button>
+            <button onclick="reset()">Reset</button>
+            <select id="scenarioSelect" onchange="loadScenario(this.value)">
+                <option value="earth-satellite">Low Earth Orbit</option>
+                <option value="high-orbit">High Earth Orbit</option>
+                <option value="elliptical">Elliptical Orbit</option>
+                <option value="moon">Earth-Moon System</option>
+            </select>
+        </div>
+
+        <div class="checkboxes">
+            <label>
+                <input type="checkbox" id="showVectors" checked onchange="toggleVectors()">
+                Show Vectors
+            </label>
+            <label>
+                <input type="checkbox" id="showTrails" checked onchange="toggleTrails()">
+                Show Orbital Path
+            </label>
+            <label>
+                <input type="checkbox" id="showFieldLines" onchange="toggleFieldLines()">
+                Show Gravitational Field
+            </label>
+        </div>
+
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let isPlaying = false;
+        let showVectors = true;
+        let showTrails = true;
+        let showFieldLines = false;
+        let time = 0;
+        let selectedScenario = 'earth-satellite';
+        let bodies = [];
+        let trail = [];
+
+        const scenarios = {
+            'earth-satellite': {
+                name: 'Low Earth Orbit',
+                bodies: [
+                    {
+                        x: 400, y: 300,
+                        vx: 0, vy: 0,
+                        mass: 8000,
+                        radius: 30,
+                        color: '#4A90E2',
+                        name: 'Earth',
+                        fixed: true
+                    },
+                    {
+                        x: 400, y: 200,
+                        vx: 9, vy: 0,
+                        mass: 0.01,
+                        radius: 4,
+                        color: '#FFD700',
+                        name: 'Satellite',
+                        fixed: false
+                    }
+                ]
+            },
+            'high-orbit': {
+                name: 'High Earth Orbit',
+                bodies: [
+                    {
+                        x: 400, y: 300,
+                        vx: 0, vy: 0,
+                        mass: 8000,
+                        radius: 30,
+                        color: '#4A90E2',
+                        name: 'Earth',
+                        fixed: true
+                    },
+                    {
+                        x: 400, y: 150,
+                        vx: 6.5, vy: 0,
+                        mass: 0.01,
+                        radius: 4,
+                        color: '#00FF00',
+                        name: 'Satellite',
+                        fixed: false
+                    }
+                ]
+            },
+            'elliptical': {
+                name: 'Elliptical Orbit',
+                bodies: [
+                    {
+                        x: 400, y: 300,
+                        vx: 0, vy: 0,
+                        mass: 8000,
+                        radius: 30,
+                        color: '#4A90E2',
+                        name: 'Earth',
+                        fixed: true
+                    },
+                    {
+                        x: 400, y: 220,
+                        vx: 7, vy: 0,
+                        mass: 0.01,
+                        radius: 4,
+                        color: '#FF6B6B',
+                        name: 'Satellite',
+                        fixed: false
+                    }
+                ]
+            },
+            'moon': {
+                name: 'Earth-Moon System',
+                bodies: [
+                    {
+                        x: 400, y: 300,
+                        vx: 0, vy: 0,
+                        mass: 8000,
+                        radius: 30,
+                        color: '#4A90E2',
+                        name: 'Earth',
+                        fixed: true
+                    },
+                    {
+                        x: 400, y: 100,
+                        vx: 4.5, vy: 0,
+                        mass: 1,
+                        radius: 10,
+                        color: '#CCCCCC',
+                        name: 'Moon',
+                        fixed: false
+                    }
+                ]
+            }
+        };
+
+        function loadScenario(key) {
+            const scenario = scenarios[key];
+            bodies = JSON.parse(JSON.stringify(scenario.bodies));
+            selectedScenario = key;
+            trail = [];
+            time = 0;
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = 'Play';
+        }
+
+        function reset() {
+            loadScenario(selectedScenario);
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            document.getElementById('playBtn').textContent = isPlaying ? 'Pause' : 'Play';
+        }
+
+        function toggleVectors() {
+            showVectors = document.getElementById('showVectors').checked;
+        }
+
+        function toggleTrails() {
+            showTrails = document.getElementById('showTrails').checked;
+            if (!showTrails) trail = [];
+        }
+
+        function toggleFieldLines() {
+            showFieldLines = document.getElementById('showFieldLines').checked;
+        }
+
+        function updatePhysics(dt) {
+            if (!isPlaying) return;
+
+            const newBodies = bodies.map((body, i) => {
+                if (body.fixed) return body;
+
+                let ax = 0, ay = 0;
+
+                bodies.forEach((other, j) => {
+                    if (i === j) return;
+
+                    const dx = other.x - body.x;
+                    const dy = other.y - body.y;
+                    const distSq = dx * dx + dy * dy;
+                    const dist = Math.sqrt(distSq);
+
+                    if (dist < 5) return;
+
+                    const a = (other.mass) / distSq;
+                    ax += a * (dx / dist);
+                    ay += a * (dy / dist);
+                });
+
+                return {
+                    ...body,
+                    vx: body.vx + ax * dt,
+                    vy: body.vy + ay * dt,
+                    x: body.x + body.vx * dt,
+                    y: body.y + body.vy * dt
+                };
+            });
+
+            bodies = newBodies;
+            time += dt;
+
+            if (showTrails) {
+                const orbiter = bodies.find(b => !b.fixed);
+                if (orbiter) {
+                    trail.push({ x: orbiter.x, y: orbiter.y });
+                    if (trail.length > 500) trail.shift();
+                }
+            }
+        }
+
+        function drawFieldLines(planet) {
+            const numLines = 16;
+            const startRadius = planet.radius + 5;
+            
+            for (let i = 0; i < numLines; i++) {
+                const angle = (2 * Math.PI * i) / numLines;
+                let x = planet.x + Math.cos(angle) * startRadius;
+                let y = planet.y + Math.sin(angle) * startRadius;
+                
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                
+                for (let step = 0; step < 150; step++) {
+                    const dx = x - planet.x;
+                    const dy = y - planet.y;
+                    const r = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (r > 350 || r < startRadius) break;
+                    
+                    const stepSize = 2;
+                    x += (dx / r) * stepSize;
+                    y += (dy / r) * stepSize;
+                    
+                    ctx.lineTo(x, y);
+                }
+                
+                ctx.strokeStyle = 'rgba(74, 144, 226, 0.3)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        function draw() {
+            ctx.fillStyle = '#0a0a0a';
+            ctx.fillRect(0, 0, 800, 600);
+
+            const planet = bodies.find(b => b.fixed);
+            const satellite = bodies.find(b => !b.fixed);
+
+            if (showFieldLines && planet) {
+                drawFieldLines(planet);
+            }
+
+            if (showTrails && trail.length > 1) {
+                ctx.strokeStyle = satellite ? satellite.color + '80' : '#FFFFFF80';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(trail[0].x, trail[0].y);
+                trail.forEach(point => ctx.lineTo(point.x, point.y));
+                ctx.stroke();
+            }
+
+            let stats = {};
+            if (planet && satellite) {
+                const dx = satellite.x - planet.x;
+                const dy = satellite.y - planet.y;
+                const r = Math.sqrt(dx * dx + dy * dy);
+                const altitude = r - planet.radius;
+                const g = planet.mass / (r * r);
+                const v = Math.sqrt(satellite.vx * satellite.vx + satellite.vy * satellite.vy);
+                const circumference = 2 * Math.PI * r;
+                const period = v > 0 ? circumference / v : 0;
+                stats = { altitude, g, v, period, r };
+            }
+
+            bodies.forEach(body => {
+                if (body.fixed) {
+                    const gradient = ctx.createRadialGradient(body.x, body.y, 0, body.x, body.y, body.radius * 1.5);
+                    gradient.addColorStop(0, body.color);
+                    gradient.addColorStop(0.7, body.color + '88');
+                    gradient.addColorStop(1, body.color + '00');
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(body.x, body.y, body.radius * 1.5, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = body.color;
+                ctx.beginPath();
+                ctx.arc(body.x, body.y, body.radius, 0, Math.PI * 2);
+                ctx.fill();
+                
+                if (!body.fixed) {
+                    ctx.strokeStyle = '#FFFFFF';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
+
+                ctx.fillStyle = 'white';
+                ctx.font = '12px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText(body.name, body.x, body.y + body.radius + 15);
+            });
+
+            if (showVectors && satellite && planet) {
+                const dx = satellite.x - planet.x;
+                const dy = satellite.y - planet.y;
+                const r = Math.sqrt(dx * dx + dy * dy);
+
+                const vScale = 15;
+                ctx.strokeStyle = '#00FF00';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(satellite.x, satellite.y);
+                ctx.lineTo(satellite.x + satellite.vx * vScale, satellite.y + satellite.vy * vScale);
+                ctx.stroke();
+
+                const vAngle = Math.atan2(satellite.vy, satellite.vx);
+                const arrowSize = 8;
+                ctx.fillStyle = '#00FF00';
+                ctx.beginPath();
+                ctx.moveTo(
+                    satellite.x + satellite.vx * vScale,
+                    satellite.y + satellite.vy * vScale
+                );
+                ctx.lineTo(
+                    satellite.x + satellite.vx * vScale - arrowSize * Math.cos(vAngle - Math.PI / 6),
+                    satellite.y + satellite.vy * vScale - arrowSize * Math.sin(vAngle - Math.PI / 6)
+                );
+                ctx.lineTo(
+                    satellite.x + satellite.vx * vScale - arrowSize * Math.cos(vAngle + Math.PI / 6),
+                    satellite.y + satellite.vy * vScale - arrowSize * Math.sin(vAngle + Math.PI / 6)
+                );
+                ctx.closePath();
+                ctx.fill();
+
+                const aScale = Math.min(r * 0.3, 50);
+                ctx.strokeStyle = '#FF0000';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(satellite.x, satellite.y);
+                ctx.lineTo(satellite.x - (dx / r) * aScale, satellite.y - (dy / r) * aScale);
+                ctx.stroke();
+
+                const aAngle = Math.atan2(-dy, -dx);
+                ctx.fillStyle = '#FF0000';
+                ctx.beginPath();
+                ctx.moveTo(
+                    satellite.x - (dx / r) * aScale,
+                    satellite.y - (dy / r) * aScale
+                );
+                ctx.lineTo(
+                    satellite.x - (dx / r) * aScale - arrowSize * Math.cos(aAngle - Math.PI / 6),
+                    satellite.y - (dy / r) * aScale - arrowSize * Math.sin(aAngle - Math.PI / 6)
+                );
+                ctx.lineTo(
+                    satellite.x - (dx / r) * aScale - arrowSize * Math.cos(aAngle + Math.PI / 6),
+                    satellite.y - (dy / r) * aScale - arrowSize * Math.sin(aAngle + Math.PI / 6)
+                );
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            ctx.fillStyle = 'white';
+            ctx.font = '14px monospace';
+            ctx.textAlign = 'left';
+            ctx.fillText(`Time: ${time.toFixed(1)}s`, 10, 20);
+            
+            if (stats.altitude !== undefined) {
+                ctx.fillText(`Orbital Radius: ${stats.r.toFixed(0)} units`, 10, 40);
+                ctx.fillText(`Altitude: ${stats.altitude.toFixed(0)} units`, 10, 60);
+                ctx.fillText(`Velocity: ${stats.v.toFixed(2)} units/s`, 10, 80);
+                ctx.fillText(`g (accel): ${stats.g.toFixed(4)} units/s²`, 10, 100);
+                ctx.fillText(`Period: ${stats.period.toFixed(1)}s`, 10, 120);
+            }
+            
+            if (showVectors) {
+                ctx.fillText(`Green = velocity (tangent)`, 10, 560);
+                ctx.fillText(`Red = acceleration (centripetal)`, 10, 580);
+            }
+        }
+
+        function animate() {
+            updatePhysics(0.016);
+            draw();
+            requestAnimationFrame(animate);
+        }
+
+        loadScenario('earth-satellite');
+        animate();
+    </script>
+</body>
+</html>
