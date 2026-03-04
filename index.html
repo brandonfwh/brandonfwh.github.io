@@ -390,10 +390,20 @@
       </div>
       <div class="modal-section">
         <div class="modal-section-title">Live Demo</div>
-        <div style="position:relative;height:500px;overflow:hidden;border-radius:8px;border:1px solid var(--border);margin-bottom:0.5rem;">
-          <iframe src="orbital-simulator.html" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;" title="Orbital Mechanics Simulator"></iframe>
-        </div>
-        <a href="orbital-simulator.html" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gt-gold);text-decoration:none;display:inline-block;margin-top:0.5rem;opacity:0.7;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">Open full screen ></a>
+        <a href="orbital-simulator.html" target="_blank" rel="noopener" style="display:block;text-decoration:none;position:relative;height:280px;overflow:hidden;border-radius:8px;border:1px solid var(--border);margin-bottom:0.5rem;background:linear-gradient(135deg, #0c1222 0%, #111d35 50%, #0a1628 100%);cursor:pointer;transition:border-color 0.3s;" onmouseover="this.style.borderColor='rgba(6,182,212,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;">
+            <div style="width:80px;height:80px;border-radius:50%;border:2px solid rgba(6,182,212,0.3);display:flex;align-items:center;justify-content:center;background:rgba(6,182,212,0.08);">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#06B6D4" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-30 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4"/></svg>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:#06B6D4;font-weight:500;">Launch Interactive Simulator</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-muted);">Click to open in new tab - drag to create planets, watch orbits form</div>
+          </div>
+          <div style="position:absolute;inset:0;overflow:hidden;opacity:0.06;">
+            <div style="position:absolute;top:50%;left:50%;width:300px;height:300px;border-radius:50%;border:1px solid #06B6D4;transform:translate(-50%,-50%);"></div>
+            <div style="position:absolute;top:50%;left:50%;width:180px;height:180px;border-radius:50%;border:1px solid #06B6D4;transform:translate(-50%,-50%);"></div>
+            <div style="position:absolute;top:50%;left:50%;width:400px;height:200px;border-radius:50%;border:1px solid #06B6D4;transform:translate(-50%,-50%) rotate(20deg);"></div>
+          </div>
+        </a>
       </div>
       <div class="modal-footer-tech"><span class="tech-chip">Physics Simulation</span><span class="tech-chip">Newtonian Gravity</span><span class="tech-chip">Numerical Integration</span><span class="tech-chip">Real-Time Rendering</span><span class="tech-chip">HTML / CSS / JavaScript</span><span class="tech-chip">AP Physics</span></div>
     </div>
@@ -490,6 +500,7 @@
           <div class="modal-image-placeholder"><img src="sediment-electronics.png" alt="Sediment Sentry top-down view of electronics bay with GPS antenna"></div>
         </div>
       </div>
+      <div style="margin-top:1.5rem;margin-bottom:0.5rem;"><a href="https://github.com/brandonfwh/sediment-sentry" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--gt-gold);text-decoration:none;display:inline-flex;align-items:center;gap:0.5rem;padding:0.5rem 1rem;background:rgba(179,163,105,0.08);border:1px solid rgba(179,163,105,0.2);border-radius:6px;transition:all 0.2s;" onmouseover="this.style.background='rgba(179,163,105,0.15)'" onmouseout="this.style.background='rgba(179,163,105,0.08)'"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View Source on GitHub</a></div>
       <div class="modal-footer-tech"><span class="tech-chip">Arduino Uno</span><span class="tech-chip">IR LED + Photodiode</span><span class="tech-chip">NEO-6M GPS</span><span class="tech-chip">MicroSD Breakout</span><span class="tech-chip">18650 LiPo</span><span class="tech-chip">Polynomial Calibration</span><span class="tech-chip">PETG 3D Print</span><span class="tech-chip">Marine Silicone</span><span class="tech-chip">CSV Data Logging</span></div>
     </div>
   </div>
